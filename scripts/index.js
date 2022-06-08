@@ -29,6 +29,10 @@ class ChessBoard {
     initialize(){
         this.capturedPieces = [];
 
+        const bk1 = new King('bk1' , 0, 3, 'black', 'bk');
+        const bh1 = new Knight('bh1' , 0, 1, 'black', 'bh');
+        const bh2 = new Knight('bh2' , 0, 6, 'black', 'bh');
+
         const bp0 = new Pawn('bp0' , 1, 0, 'black', 'bp');
         const bp1 = new Pawn('bp1' , 1, 1, 'black', 'bp');
         const bp2 = new Pawn('bp2' , 1, 2, 'black', 'bp');
@@ -47,15 +51,19 @@ class ChessBoard {
         const wp6 = new Pawn('wp6' , 6, 6, 'white', 'wp');
         const wp7 = new Pawn('wp7' , 6, 7, 'white', 'wp');
 
+        const wk1 = new King('wk1' , 7, 3, 'white', 'wk');
+        const wh1 = new Knight('wh1' , 7, 1, 'white', 'wh');
+        const wh2 = new Knight('wh2' , 7, 6, 'white', 'wh');
+
         this.board = [
-            ['', '', '', '', '', '', '', ''],   //8
+            ['', bh1, '', bk1, '', '', bh2, ''],   //8
             [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7],   //7
             ['', '', '', '', '', '', '', ''],   //6
             ['', '', '', '', '', '', '', ''],   //5
             ['', '', '', '', '', '', '', ''],   //4
             ['', '', '', '', '', '', '', ''],   //3
             [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7],   //2
-            ['', '', '', '', '', '', '', '']    //1
+            ['', wh1, '', wk1, '', '', wh2, '']    //1
         //    a   b  c   d    e  f    g   h
         ]
         this.board.forEach( (rowArray, indexRow) => {
@@ -196,24 +204,26 @@ class ChessBoard {
 }
 
 
+
+// --------------------
+
+
 class Piece {
-    constructor (test) {
-        this.test = test
-    }
-    moveRules () {
-        console.log('move rules')
-    }
-
-}
-
-class Pawn extends Piece {
     constructor (id, row, column, color, type) {
-        super('test')
         this.id = id;
         this.row = row;
         this.column = column;
         this.color = color;
         this.type = type;
+    }
+    moveRules () {
+        console.log('move rules')
+    }
+}
+
+class Pawn extends Piece {
+    constructor (id, row, column, color, type) {
+        super(id, row, column, color, type)
         this.firstMove = false;
     }
     isValidMove(newRow, newCol) {
@@ -228,5 +238,45 @@ class Pawn extends Piece {
             }
             return false;
         }
+    }
+}
+
+class King extends Piece {
+    constructor (id, row, column, color, type) {
+        super(id, row, column, color, type)
+    }
+    isValidMove(newRow, newCol) {
+        if(Math.abs(newRow-this.row) === 1){
+            if(Math.abs(newCol-this.column) <= 1){
+                return true
+            }
+            return false
+        }else if(Math.abs(newCol-this.column) === 1){
+            if(Math.abs(newRow-this.row) <= 1){
+                return true
+            }
+            return false
+        }
+        return false
+    }
+}
+
+class Knight extends Piece {
+    constructor (id, row, column, color, type) {
+        super(id, row, column, color, type)
+    }
+    isValidMove(newRow, newCol) {
+        if(Math.abs(newRow-this.row) === 2){
+            if(Math.abs(newCol-this.column) === 1){
+                return true
+            }
+            return false
+        }else if(Math.abs(newCol-this.column) === 2){
+            if(Math.abs(newRow-this.row) === 1){
+                return true
+            }
+            return false
+        }
+        return false
     }
 }

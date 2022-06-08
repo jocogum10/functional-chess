@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Chango", cursive;
+  font-size: 5vh;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  background-image: url("../images/bg3.jpg");
+  background-size: cover;
+}
+#app .header-container {
+  color: #CDB699;
+  width: 100%;
+}
+#app .chess-board {
+  width: 80vh;
+  height: 80vh;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-areas: "a8 b8 c8 d8 e8 f8 g8 h8" "a7 b7 c7 d7 e7 f7 g7 h7" "a6 b6 c6 d6 e6 f6 g6 h6" "a5 b5 c5 d5 e5 f5 g5 h5" "a4 b4 c4 d4 e4 f4 g4 h4" "a3 b3 c3 d3 e3 f3 g3 h3" "a2 b2 c2 d2 e2 f2 g2 h2" "a1 b1 c1 d1 e1 f1 g1 h1";
+}
+#app .chess-board .chess-cell {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#app .chess-board .chess-cell:hover {
+  opacity: 0.9;
+}
+#app .chess-board .is-dark {
+  background-color: #BB6464;
+}
+#app .chess-board .is-light {
+  background-color: #CDB699;
+}
+#app .chess-board .black-player {
+  color: black;
+}
+#app .chess-board .white-player {
+  color: white;
+}
+#app .chess-board i {
+  pointer-events: none;
+}
+
+/*# sourceMappingURL=app.css.map */

@@ -55,6 +55,7 @@ class ChessBoard {
     const wb2 = new Bishop("wb2", 7, 2, "white", "wb");
 
     const wr1 = new Rook("wr1", 7, 0, "white", "wr");
+    const wr2 = new Rook("wr2", 7, 7, "white", "wr");
 
     const wk1 = new King("wk1", 7, 3, "white", "wk");
     const wh1 = new Knight("wh1", 7, 1, "white", "wh");
@@ -68,7 +69,7 @@ class ChessBoard {
       ["", "", "", "", "", "", "", ""], //4
       ["", "", "", "", "", "", "", ""], //3
       [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
-      [wr1, wh1, wb2, wk1, "", wb1, wh2, ""], //1
+      [wr1, wh1, wb2, wk1, "", wb1, wh2, wr1], //1
       //    a   b  c   d    e  f    g   h
     ];
     this.board.forEach((rowArray, indexRow) => {
@@ -240,15 +241,31 @@ class Piece {
 class Pawn extends Piece {
   constructor(id, row, column, color, type) {
     super(id, row, column, color, type);
-    this.firstMove = false;
+    this.firstMove = true;
   }
   isValidMove(newRow, newCol) {
     if (this.color == "black") {
+      if (this.firstMove === true) {
+        if (newRow <= this.row + 2 && newCol === this.column) {
+          this.firstMove = false;
+          return true;
+        } else {
+          return false;
+        }
+      }
       if (newRow === this.row + 1 && newCol === this.column) {
         return true;
       }
       return false;
     } else {
+      if (this.firstMove === true) {
+        if (newRow <= this.row + 2 && newCol === this.column) {
+          this.firstMove = false;
+          return true;
+        } else {
+          return false;
+        }
+      }
       if (newRow === this.row - 1 && newCol === this.column) {
         return true;
       }

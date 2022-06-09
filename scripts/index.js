@@ -57,6 +57,8 @@ class ChessBoard {
     const wr1 = new Rook("wr1", 7, 0, "white", "wr");
     const wr2 = new Rook("wr2", 7, 7, "white", "wr");
 
+    const wq = new Queen("wq", 7, 4, "white", "wq");
+
     const wk1 = new King("wk1", 7, 3, "white", "wk");
     const wh1 = new Knight("wh1", 7, 1, "white", "wh");
     const wh2 = new Knight("wh2", 7, 6, "white", "wh");
@@ -69,7 +71,7 @@ class ChessBoard {
       ["", "", "", "", "", "", "", ""], //4
       ["", "", "", "", "", "", "", ""], //3
       [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
-      [wr1, wh1, wb2, wk1, "", wb1, wh2, wr1], //1
+      [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
       //    a   b  c   d    e  f    g   h
     ];
     this.board.forEach((rowArray, indexRow) => {
@@ -344,6 +346,18 @@ class Knight extends Piece {
         return true;
       }
       return false;
+    }
+    return false;
+  }
+}
+
+class Queen extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+  }
+  isValidMove(newRow, newCol) {
+    if (newRow != this.row && newCol - this.column != 1) {
+      return true;
     }
     return false;
   }

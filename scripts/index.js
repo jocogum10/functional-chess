@@ -29,6 +29,15 @@ class ChessBoard {
   initialize() {
     this.capturedPieces = [];
 
+    //blacks
+    const bb1 = new Bishop("bb1", 0, 5, "black", "bb");
+    const bb2 = new Bishop("bb2", 0, 2, "black", "bb");
+
+    const br1 = new Rook("br1", 0, 0, "black", "br");
+    const br2 = new Rook("br2", 0, 7, "black", "br");
+
+    const bq = new Queen("bq", 0, 4, "black", "bq");
+
     const bk1 = new King("bk1", 0, 3, "black", "bk");
     const bh1 = new Knight("bh1", 0, 1, "black", "bh");
     const bh2 = new Knight("bh2", 0, 6, "black", "bh");
@@ -42,6 +51,7 @@ class ChessBoard {
     const bp6 = new Pawn("bp6", 1, 6, "black", "bp");
     const bp7 = new Pawn("bp7", 1, 7, "black", "bp");
 
+    //whites
     const wp0 = new Pawn("wp0", 6, 0, "white", "wp");
     const wp1 = new Pawn("wp1", 6, 1, "white", "wp");
     const wp2 = new Pawn("wp2", 6, 2, "white", "wp");
@@ -64,7 +74,7 @@ class ChessBoard {
     const wh2 = new Knight("wh2", 7, 6, "white", "wh");
 
     this.board = [
-      ["", bh1, "", bk1, "", "", bh2, ""], //8
+      [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
       [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
       ["", "", "", "", "", "", "", ""], //6
       ["", "", "", "", "", "", "", ""], //5
@@ -301,12 +311,8 @@ class Bishop extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if (Math.abs(newRow < this.row || newRow > this.row)) {
-      if (Math.abs(newCol < this.column || newCol > this.column)) {
-        return true;
-      }
-      return false;
-    }
+    if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
+      return true;
     return false;
   }
 }
@@ -356,9 +362,12 @@ class Queen extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if (newRow != this.row && newCol - this.column != 1) {
+    //move like bishop
+    if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
       return true;
-    }
+    //move like rook
+    if (newRow != this.row && newCol === this.column) return true;
+    if (newRow === this.row && newCol != this.column) return true;
     return false;
   }
 }

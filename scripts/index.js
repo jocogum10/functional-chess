@@ -119,14 +119,17 @@ class ChessBoard {
     const newRow = parseInt(rowIndex);
     const newCol = parseInt(colIndex);
     if (this.pieceOnHand.isValidMove(newRow, newCol)) {
-      this.pieceOnHand.row = newRow;
-      this.pieceOnHand.column = newCol;
 
       // capture piece
       if (this.board[newRow][newCol] && this.board[newRow][newCol].color != this.pieceOnHand.color) {
         this.capturePiece(this.board[newRow][newCol]);
-        console.log(this.capturedPieces);
+      } else {
+        this.board[oldRow][oldCol] = this.pieceOnHand;
+        console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
       }
+
+      this.pieceOnHand.row = newRow;
+      this.pieceOnHand.column = newCol;
       this.board[rowIndex][colIndex] = this.pieceOnHand;
       this.board[oldRow][oldCol] = "";
       console.log(
@@ -139,6 +142,7 @@ class ChessBoard {
         newRow,
         newCol
       );
+      
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
       console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
@@ -300,7 +304,7 @@ class King extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if (Math.abs(newRow - this.row) < 1) {
+    if (Math.abs(newRow - this.row) === 1) {
       if (Math.abs(newCol - this.column) <= 1) {
         return true;
       }

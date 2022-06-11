@@ -1,4 +1,40 @@
 // variables
+let bb1
+let bb2
+let br1 
+let br2 
+let bq 
+let bk1 
+let bh1
+let bh2
+let bp0 
+let bp1 
+let bp2 
+let bp3 
+let bp4 
+let bp5 
+let bp6 
+let bp7 
+//whites
+let wp0 
+let wp1 
+let wp2 
+let wp3 
+let wp4 
+let wp5 
+let wp6 
+let wp7 
+let wb1
+let wb2
+let wr1 
+let wr2 
+let wq 
+let wk1 
+let wh1
+let wh2
+
+let chessboard
+
 
 // selectors
 const app = document.getElementById("app");
@@ -11,7 +47,7 @@ window.addEventListener("load", () => {
 // functions
 function renderApp(appElement) {
   // game
-  let chessboard = new ChessBoard();
+  chessboard = new ChessBoard();
   chessboard.initialize();
   chessboard.renderBoard();
 }
@@ -35,48 +71,48 @@ class ChessBoard {
     }
 
     //blacks
-    const bb1 = new Bishop("bb1", 0, 2, "black", "bb");
-    const bb2 = new Bishop("bb2", 0, 5, "black", "bb");
+    bb1 = new Bishop("bb1", 0, 2, "black", "bb");
+    bb2 = new Bishop("bb2", 0, 5, "black", "bb");
 
-    const br1 = new Rook("br1", 0, 0, "black", "br");
-    const br2 = new Rook("br2", 0, 7, "black", "br");
+    br1 = new Rook("br1", 0, 0, "black", "br");
+    br2 = new Rook("br2", 0, 7, "black", "br");
 
-    const bq = new Queen("bq", 0, 4, "black", "bq");
+    bq = new Queen("bq", 0, 4, "black", "bq");
 
-    const bk1 = new King("bk1", 0, 3, "black", "bk");
-    const bh1 = new Knight("bh1", 0, 1, "black", "bh");
-    const bh2 = new Knight("bh2", 0, 6, "black", "bh");
+    bk1 = new King("bk1", 0, 3, "black", "bk");
+    bh1 = new Knight("bh1", 0, 1, "black", "bh");
+    bh2 = new Knight("bh2", 0, 6, "black", "bh");
 
-    const bp0 = new Pawn("bp0", 1, 0, "black", "bp");
-    const bp1 = new Pawn("bp1", 1, 1, "black", "bp");
-    const bp2 = new Pawn("bp2", 1, 2, "black", "bp");
-    const bp3 = new Pawn("bp3", 1, 3, "black", "bp");
-    const bp4 = new Pawn("bp4", 1, 4, "black", "bp");
-    const bp5 = new Pawn("bp5", 1, 5, "black", "bp");
-    const bp6 = new Pawn("bp6", 1, 6, "black", "bp");
-    const bp7 = new Pawn("bp7", 1, 7, "black", "bp");
+    bp0 = new Pawn("bp0", 1, 0, "black", "bp");
+    bp1 = new Pawn("bp1", 1, 1, "black", "bp");
+    bp2 = new Pawn("bp2", 1, 2, "black", "bp");
+    bp3 = new Pawn("bp3", 1, 3, "black", "bp");
+    bp4 = new Pawn("bp4", 1, 4, "black", "bp");
+    bp5 = new Pawn("bp5", 1, 5, "black", "bp");
+    bp6 = new Pawn("bp6", 1, 6, "black", "bp");
+    bp7 = new Pawn("bp7", 1, 7, "black", "bp");
 
     //whites
-    const wp0 = new Pawn("wp0", 6, 0, "white", "wp");
-    const wp1 = new Pawn("wp1", 6, 1, "white", "wp");
-    const wp2 = new Pawn("wp2", 6, 2, "white", "wp");
-    const wp3 = new Pawn("wp3", 6, 3, "white", "wp");
-    const wp4 = new Pawn("wp4", 6, 4, "white", "wp");
-    const wp5 = new Pawn("wp5", 6, 5, "white", "wp");
-    const wp6 = new Pawn("wp6", 6, 6, "white", "wp");
-    const wp7 = new Pawn("wp7", 6, 7, "white", "wp");
+    wp0 = new Pawn("wp0", 6, 0, "white", "wp");
+    wp1 = new Pawn("wp1", 6, 1, "white", "wp");
+    wp2 = new Pawn("wp2", 6, 2, "white", "wp");
+    wp3 = new Pawn("wp3", 6, 3, "white", "wp");
+    wp4 = new Pawn("wp4", 6, 4, "white", "wp");
+    wp5 = new Pawn("wp5", 6, 5, "white", "wp");
+    wp6 = new Pawn("wp6", 6, 6, "white", "wp");
+    wp7 = new Pawn("wp7", 6, 7, "white", "wp");
 
-    const wb1 = new Bishop("wb1", 7, 5, "white", "wb");
-    const wb2 = new Bishop("wb2", 7, 2, "white", "wb");
+    wb1 = new Bishop("wb1", 7, 5, "white", "wb");
+    wb2 = new Bishop("wb2", 7, 2, "white", "wb");
 
-    const wr1 = new Rook("wr1", 7, 0, "white", "wr");
-    const wr2 = new Rook("wr2", 7, 7, "white", "wr");
+    wr1 = new Rook("wr1", 7, 0, "white", "wr");
+    wr2 = new Rook("wr2", 7, 7, "white", "wr");
 
-    const wq = new Queen("wq", 7, 4, "white", "wq");
+    wq = new Queen("wq", 7, 4, "white", "wq");
 
-    const wk1 = new King("wk1", 7, 3, "white", "wk");
-    const wh1 = new Knight("wh1", 7, 1, "white", "wh");
-    const wh2 = new Knight("wh2", 7, 6, "white", "wh");
+    wk1 = new King("wk1", 7, 3, "white", "wk");
+    wh1 = new Knight("wh1", 7, 1, "white", "wh");
+    wh2 = new Knight("wh2", 7, 6, "white", "wh");
 
     this.board = [
       [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
@@ -146,6 +182,16 @@ class ChessBoard {
         newRow,
         newCol
       );
+      
+      console.log(this.pieceOnHand);
+      if(this.playerWhiteTurn){
+        const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
+        console.log('blackChecked', blackChecked)
+      } else {
+        const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
+        console.log('whiteChecked', whiteChecked)
+      }
+
       this.playerWhiteTurn = !this.playerWhiteTurn;
       
     } else {
@@ -265,6 +311,9 @@ class Piece {
   }
   moveRules() {
     console.log("move rules");
+  }
+  isChecked(){
+    return false;
   }
 }
 
@@ -387,5 +436,21 @@ class Queen extends Piece {
     if (newRow != this.row && newCol === this.column) return true;
     if (newRow === this.row && newCol != this.column) return true;
     return false;
+  }
+  // check all possible moves if king is in one of them
+  isChecked(enemyKingRow, enemyKingCol){
+    if(this.isValidMove(enemyKingRow, enemyKingCol)){
+      // up direction
+      if (enemyKingCol === this.column && enemyKingRow < this.row) {
+        for(let i=this.row-1 ; i > enemyKingRow; i--){
+          const pieceChecked = chessboard.board[i][this.column]
+          if(pieceChecked && (pieceChecked.type != 'bk' || pieceChecked.type != 'wk')){
+            return false
+          }
+        }
+        return true
+      }
+    } 
+    return false
   }
 }

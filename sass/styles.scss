@@ -17,6 +17,30 @@ $bg-url: url("../images/bg3.jpg");
   font-size: 5vh;
 }
 
+.captured-pieces {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 50px;
+  width: 50vw;
+  order: +2;
+
+  .captured-by-white {
+    background-color: white;
+    padding: 0.5rem;
+  }
+  .captured-by-black {
+    background-color: black;
+    padding: 0.5rem;
+  }
+}
+.header-text {
+  font-size: 0.7rem;
+  color: $light-color;
+  text-align: center;
+  order: +1;
+}
+
 #app {
   height: 100vh;
   display: flex;
@@ -35,8 +59,8 @@ $bg-url: url("../images/bg3.jpg");
   .chess-board {
     // border: 1px solid green;
 
-    width: 80vh;
-    height: 80vh;
+    width: 55vw;
+    height: 55vw;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);

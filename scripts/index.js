@@ -109,6 +109,7 @@ class ChessBoard {
     }
 
     console.log("piece captured:", this.capturedPieces);
+    this.renderCaptured();
   }
   placePiece(position) {
     // get clicked cell
@@ -196,6 +197,73 @@ class ChessBoard {
 
   // -------------------------------------------------------
   // view functions
+  renderCaptured() {
+    const captureWhite = document.querySelector(".captured-by-white");
+    const captureBlack = document.querySelector(".captured-by-black");
+
+    captureBlack.innerHTML = "";
+    captureWhite.innerHTML = "";
+
+    this.capturedPieces.black.forEach((id) => {
+      const newCell = document.createElement("span");
+      newCell.classList.add("captured-piece-cell");
+      newCell.classList.add("fa-solid");
+      switch (id.type.charAt(1)) {
+        case "p":
+          newCell.classList.add("fa-chess-pawn");
+          break;
+        case "r":
+          newCell.classList.add("fa-chess-rook");
+          break;
+        case "h":
+          newCell.classList.add("fa-chess-knight");
+          break;
+        case "b":
+          newCell.classList.add("fa-chess-bishop");
+          break;
+        case "k":
+          newCell.classList.add("fa-chess-king");
+          break;
+        case "q":
+          newCell.classList.add("fa-chess-queen");
+          break;
+        default:
+          console.log();
+      }
+      newCell.style.color = "black";
+      captureWhite.append(newCell);
+    });
+    this.capturedPieces.white.forEach((id) => {
+      const newCell = document.createElement("span");
+      newCell.classList.add("captured-piece-cell");
+      newCell.classList.add("fa-solid");
+      switch (id.type.charAt(1)) {
+        case "p":
+          newCell.classList.add("fa-chess-pawn");
+          break;
+        case "r":
+          newCell.classList.add("fa-chess-rook");
+          break;
+        case "h":
+          newCell.classList.add("fa-chess-knight");
+          break;
+        case "b":
+          newCell.classList.add("fa-chess-bishop");
+          break;
+        case "k":
+          newCell.classList.add("fa-chess-king");
+          break;
+        case "q":
+          newCell.classList.add("fa-chess-queen");
+          break;
+        default:
+          console.log();
+      }
+      newCell.style.color = "white";
+      captureBlack.append(newCell);
+    });
+  }
+
   renderBoard() {
     const gameContainer = document.getElementById("game");
 

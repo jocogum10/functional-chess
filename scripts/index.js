@@ -56,19 +56,19 @@ class ChessBoard {
   constructor() {
     this.board = [];
     this.capturedPieces = {
-      'black': [],
-      'white': []
-    }
+      black: [],
+      white: [],
+    };
     this.pieceOnHand = "";
-    this.playerWhiteTurn = false
+    this.playerWhiteTurn = false;
   }
 
   initialize() {
-    this.playerWhiteTurn = true
+    this.playerWhiteTurn = true;
     this.capturedPieces = {
-      'black': [],
-      'white': []
-    }
+      black: [],
+      white: [],
+    };
 
     //blacks
     bb1 = new Bishop("bb1", 0, 2, "black", "bb");
@@ -138,13 +138,14 @@ class ChessBoard {
   // -------------------------------------------------------
   // logic functions
   capturePiece(piece) {
-    if(piece.color === 'black'){
+    if (piece.color === "black") {
       this.capturedPieces.black.push(piece);
     } else {
       this.capturedPieces.white.push(piece);
     }
-    
+
     console.log("piece captured:", this.capturedPieces);
+    this.renderCaptured();
   }
   placePiece(position) {
     // get clicked cell
@@ -156,12 +157,18 @@ class ChessBoard {
     const oldCol = this.pieceOnHand.column;
     const newRow = parseInt(rowIndex);
     const newCol = parseInt(colIndex);
-    console.log(this.pieceOnHand.color, this.playerWhiteTurn)
-    const whitePlayerMove = this.pieceOnHand.color === 'white' ? true : false;
+    console.log(this.pieceOnHand.color, this.playerWhiteTurn);
+    const whitePlayerMove = this.pieceOnHand.color === "white" ? true : false;
 
-    if (this.pieceOnHand.isValidMove(newRow, newCol) && this.playerWhiteTurn === whitePlayerMove) {
+    if (
+      this.pieceOnHand.isValidMove(newRow, newCol) &&
+      this.playerWhiteTurn === whitePlayerMove
+    ) {
       // capture piece
-      if (this.board[newRow][newCol] && this.board[newRow][newCol].color != this.pieceOnHand.color) {
+      if (
+        this.board[newRow][newCol] &&
+        this.board[newRow][newCol].color != this.pieceOnHand.color
+      ) {
         this.capturePiece(this.board[newRow][newCol]);
       } else {
         this.board[oldRow][oldCol] = this.pieceOnHand;
@@ -193,18 +200,22 @@ class ChessBoard {
       }
 
       this.playerWhiteTurn = !this.playerWhiteTurn;
-      
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
       console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
     }
 
     this.pieceOnHand = "";
-    console.log('player turn:', this.playerWhiteTurn ? 'white' : 'black' )
+    console.log("player turn:", this.playerWhiteTurn ? "white" : "black");
     this.renderBoard();
   }
-
   getPiece(position) {
+    const currentCell = document.getElementById(position);
+
+    if (currentCell.firstChild) {
+      currentCell.firstChild.classList.add("blinking");
+    }
+
     // get clicked cell
     const rowIndex = position.split("")[0];
     const colIndex = position.split("")[1];
@@ -232,13 +243,79 @@ class ChessBoard {
 
   // -------------------------------------------------------
   // view functions
+  renderCaptured() {
+    const captureWhite = document.querySelector(".captured-by-white");
+    const captureBlack = document.querySelector(".captured-by-black");
+
+    captureBlack.innerHTML = "";
+    captureWhite.innerHTML = "";
+
+    this.capturedPieces.black.forEach((id) => {
+      const newCell = document.createElement("span");
+      newCell.classList.add("captured-piece-cell");
+      newCell.classList.add("fa-solid");
+      switch (id.type.charAt(1)) {
+        case "p":
+          newCell.classList.add("fa-chess-pawn");
+          break;
+        case "r":
+          newCell.classList.add("fa-chess-rook");
+          break;
+        case "h":
+          newCell.classList.add("fa-chess-knight");
+          break;
+        case "b":
+          newCell.classList.add("fa-chess-bishop");
+          break;
+        case "k":
+          newCell.classList.add("fa-chess-king");
+          break;
+        case "q":
+          newCell.classList.add("fa-chess-queen");
+          break;
+        default:
+          console.log();
+      }
+      newCell.style.color = "black";
+      captureWhite.append(newCell);
+    });
+    this.capturedPieces.white.forEach((id) => {
+      const newCell = document.createElement("span");
+      newCell.classList.add("captured-piece-cell");
+      newCell.classList.add("fa-solid");
+      switch (id.type.charAt(1)) {
+        case "p":
+          newCell.classList.add("fa-chess-pawn");
+          break;
+        case "r":
+          newCell.classList.add("fa-chess-rook");
+          break;
+        case "h":
+          newCell.classList.add("fa-chess-knight");
+          break;
+        case "b":
+          newCell.classList.add("fa-chess-bishop");
+          break;
+        case "k":
+          newCell.classList.add("fa-chess-king");
+          break;
+        case "q":
+          newCell.classList.add("fa-chess-queen");
+          break;
+        default:
+          console.log();
+      }
+      newCell.style.color = "white";
+      captureBlack.append(newCell);
+    });
+  }
+
   renderBoard() {
     const gameContainer = document.getElementById("game");
 
     this.board.forEach((rowArray, indexRow) => {
       rowArray.forEach((columnCell, indexColumn) => {
         // get item
-
         const pieceObject = this.board[indexRow][indexColumn];
         const pieceToPlace = pieceObject ? pieceObject.type : "";
 
@@ -323,6 +400,7 @@ class Pawn extends Piece {
     this.firstMove = true;
   }
   isValidMove(newRow, newCol) {
+    console.log(this.firstMove);
     if (this.color == "black") {
       if (this.firstMove === true) {
         if (newRow <= this.row + 2 && newCol === this.column) {

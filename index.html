@@ -1,85 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chess</title>
-    <link rel="stylesheet" href="./assets/styles/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./assets/styles/app.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+  </head>
+  <body>
     <div id="app">
-        <header class="header-container">
-            <div><p>Chess</p></div>
-        </header>
-        <section class="chess-board" id="game">
-            <button class="chess-cell is-light" id="00"></button>
-            <button class="chess-cell is-dark" id="01"></button>
-            <button class="chess-cell is-light" id="02"></button>
-            <button class="chess-cell is-dark" id="03"></button>
-            <button class="chess-cell is-light" id="04"></button>
-            <button class="chess-cell is-dark" id="05"></button>
-            <button class="chess-cell is-light" id="06"></button>
-            <button class="chess-cell is-dark" id="07"></button>
-            <button class="chess-cell is-dark" id="10"></button>
-            <button class="chess-cell is-light" id="11"></button>
-            <button class="chess-cell is-dark" id="12"></button>
-            <button class="chess-cell is-light" id="13"></button>
-            <button class="chess-cell is-dark" id="14"></button>
-            <button class="chess-cell is-light" id="15"></button>
-            <button class="chess-cell is-dark" id="16"></button>
-            <button class="chess-cell is-light" id="17"></button>
-            <button class="chess-cell is-light" id="20"></button>
-            <button class="chess-cell is-dark" id="21"></button>
-            <button class="chess-cell is-light" id="22"></button>
-            <button class="chess-cell is-dark" id="23"></button>
-            <button class="chess-cell is-light" id="24"></button>
-            <button class="chess-cell is-dark" id="25"></button>
-            <button class="chess-cell is-light" id="26"></button>
-            <button class="chess-cell is-dark" id="27"></button>
-            <button class="chess-cell is-dark" id="30"></button>
-            <button class="chess-cell is-light" id="31"></button>
-            <button class="chess-cell is-dark" id="32"></button>
-            <button class="chess-cell is-light" id="33"></button>
-            <button class="chess-cell is-dark" id="34"></button>
-            <button class="chess-cell is-light" id="35"></button>
-            <button class="chess-cell is-dark" id="36"></button>
-            <button class="chess-cell is-light" id="37"></button>
-            <button class="chess-cell is-light" id="40"></button>
-            <button class="chess-cell is-dark" id="41"></button>
-            <button class="chess-cell is-light" id="42"></button>
-            <button class="chess-cell is-dark" id="43"></button>
-            <button class="chess-cell is-light" id="44"></button>
-            <button class="chess-cell is-dark" id="45"></button>
-            <button class="chess-cell is-light" id="46"></button>
-            <button class="chess-cell is-dark" id="47"></button>
-            <button class="chess-cell is-dark" id="50"></button>
-            <button class="chess-cell is-light" id="51"></button>
-            <button class="chess-cell is-dark" id="52"></button>
-            <button class="chess-cell is-light" id="53"></button>
-            <button class="chess-cell is-dark" id="54"></button>
-            <button class="chess-cell is-light" id="55"></button>
-            <button class="chess-cell is-dark" id="56"></button>
-            <button class="chess-cell is-light" id="57"></button>
-            <button class="chess-cell is-light" id="60"></button>
-            <button class="chess-cell is-dark" id="61"></button>
-            <button class="chess-cell is-light" id="62"></button>
-            <button class="chess-cell is-dark" id="63"></button>
-            <button class="chess-cell is-light" id="64"></button>
-            <button class="chess-cell is-dark" id="65"></button>
-            <button class="chess-cell is-light" id="66"></button>
-            <button class="chess-cell is-dark" id="67"></button>
-            <button class="chess-cell is-dark" id="70"></button>
-            <button class="chess-cell is-light" id="71"></button>
-            <button class="chess-cell is-dark" id="72"></button>
-            <button class="chess-cell is-light" id="73"></button>
-            <button class="chess-cell is-dark" id="74"></button>
-            <button class="chess-cell is-light" id="75"></button>
-            <button class="chess-cell is-dark" id="76"></button>
-            <button class="chess-cell is-light" id="77"></button>
-        </section>
+      <header class="header-container">
+        <div><p>Chess</p></div>
+      </header>
+
+      <div class="chess-board" id="game">
+        <button class="chess-cell is-light" id="00"></button>
+        <button class="chess-cell is-dark" id="01"></button>
+        <button class="chess-cell is-light" id="02"></button>
+        <button class="chess-cell is-dark" id="03"></button>
+        <button class="chess-cell is-light" id="04"></button>
+        <button class="chess-cell is-dark" id="05"></button>
+        <button class="chess-cell is-light" id="06"></button>
+        <button class="chess-cell is-dark" id="07"></button>
+        <button class="chess-cell is-dark" id="10"></button>
+        <button class="chess-cell is-light" id="11"></button>
+        <button class="chess-cell is-dark" id="12"></button>
+        <button class="chess-cell is-light" id="13"></button>
+        <button class="chess-cell is-dark" id="14"></button>
+        <button class="chess-cell is-light" id="15"></button>
+        <button class="chess-cell is-dark" id="16"></button>
+        <button class="chess-cell is-light" id="17"></button>
+        <button class="chess-cell is-light" id="20"></button>
+        <button class="chess-cell is-dark" id="21"></button>
+        <button class="chess-cell is-light" id="22"></button>
+        <button class="chess-cell is-dark" id="23"></button>
+        <button class="chess-cell is-light" id="24"></button>
+        <button class="chess-cell is-dark" id="25"></button>
+        <button class="chess-cell is-light" id="26"></button>
+        <button class="chess-cell is-dark" id="27"></button>
+        <button class="chess-cell is-dark" id="30"></button>
+        <button class="chess-cell is-light" id="31"></button>
+        <button class="chess-cell is-dark" id="32"></button>
+        <button class="chess-cell is-light" id="33"></button>
+        <button class="chess-cell is-dark" id="34"></button>
+        <button class="chess-cell is-light" id="35"></button>
+        <button class="chess-cell is-dark" id="36"></button>
+        <button class="chess-cell is-light" id="37"></button>
+        <button class="chess-cell is-light" id="40"></button>
+        <button class="chess-cell is-dark" id="41"></button>
+        <button class="chess-cell is-light" id="42"></button>
+        <button class="chess-cell is-dark" id="43"></button>
+        <button class="chess-cell is-light" id="44"></button>
+        <button class="chess-cell is-dark" id="45"></button>
+        <button class="chess-cell is-light" id="46"></button>
+        <button class="chess-cell is-dark" id="47"></button>
+        <button class="chess-cell is-dark" id="50"></button>
+        <button class="chess-cell is-light" id="51"></button>
+        <button class="chess-cell is-dark" id="52"></button>
+        <button class="chess-cell is-light" id="53"></button>
+        <button class="chess-cell is-dark" id="54"></button>
+        <button class="chess-cell is-light" id="55"></button>
+        <button class="chess-cell is-dark" id="56"></button>
+        <button class="chess-cell is-light" id="57"></button>
+        <button class="chess-cell is-light" id="60"></button>
+        <button class="chess-cell is-dark" id="61"></button>
+        <button class="chess-cell is-light" id="62"></button>
+        <button class="chess-cell is-dark" id="63"></button>
+        <button class="chess-cell is-light" id="64"></button>
+        <button class="chess-cell is-dark" id="65"></button>
+        <button class="chess-cell is-light" id="66"></button>
+        <button class="chess-cell is-dark" id="67"></button>
+        <button class="chess-cell is-dark" id="70"></button>
+        <button class="chess-cell is-light" id="71"></button>
+        <button class="chess-cell is-dark" id="72"></button>
+        <button class="chess-cell is-light" id="73"></button>
+        <button class="chess-cell is-dark" id="74"></button>
+        <button class="chess-cell is-light" id="75"></button>
+        <button class="chess-cell is-dark" id="76"></button>
+        <button class="chess-cell is-light" id="77"></button>
+      </div>
+      <h2 class="header-text">Captured Pieces</h2>
+
+      <div class="captured-pieces">
+        <div class="captured-by-white"></div>
+        <div class="captured-by-black"></div>
+      </div>
     </div>
     <script src="./scripts/index.js"></script>
-</body>
+  </body>
 </html>

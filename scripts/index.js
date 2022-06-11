@@ -88,6 +88,7 @@ class ChessBoard {
       rowArray.forEach((columnCell, indexColumn) => {
         const btnElement = document.getElementById(`${indexRow}${indexColumn}`);
         btnElement.addEventListener("click", (event) => {
+          console.log(event.target.firstChild.classList.add("blinking"));
           this.clickedCell(event.target.id);
         });
       });
@@ -174,7 +175,6 @@ class ChessBoard {
     this.board.forEach((rowArray, indexRow) => {
       rowArray.forEach((columnCell, indexColumn) => {
         // get item
-
         const pieceObject = this.board[indexRow][indexColumn];
         const pieceToPlace = pieceObject ? pieceObject.type : "";
 

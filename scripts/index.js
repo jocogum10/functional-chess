@@ -14,24 +14,29 @@ function renderApp(appElement) {
   let chessboard = new ChessBoard();
   chessboard.initialize();
   chessboard.renderBoard();
-  // const gameContainer = chessboard.renderBoard();
-
-  // appElement.appendChild(gameContainer);
 }
 
 class ChessBoard {
   constructor() {
     this.board = [];
-    this.capturedPieces = [];
+    this.capturedPieces = {
+      'black': [],
+      'white': []
+    }
     this.pieceOnHand = "";
+    this.playerWhiteTurn = false
   }
 
   initialize() {
-    this.capturedPieces = [];
+    this.playerWhiteTurn = true
+    this.capturedPieces = {
+      'black': [],
+      'white': []
+    }
 
     //blacks
-    const bb1 = new Bishop("bb1", 0, 5, "black", "bb");
-    const bb2 = new Bishop("bb2", 0, 2, "black", "bb");
+    const bb1 = new Bishop("bb1", 0, 2, "black", "bb");
+    const bb2 = new Bishop("bb2", 0, 5, "black", "bb");
 
     const br1 = new Rook("br1", 0, 0, "black", "br");
     const br2 = new Rook("br2", 0, 7, "black", "br");
@@ -98,7 +103,12 @@ class ChessBoard {
   // -------------------------------------------------------
   // logic functions
   capturePiece(piece) {
-    this.capturedPieces.push(piece);
+    if(piece.color === 'black'){
+      this.capturedPieces.black.push(piece);
+    } else {
+      this.capturedPieces.white.push(piece);
+    }
+    
     console.log("piece captured:", this.capturedPieces);
   }
   placePiece(position) {
@@ -111,14 +121,20 @@ class ChessBoard {
     const oldCol = this.pieceOnHand.column;
     const newRow = parseInt(rowIndex);
     const newCol = parseInt(colIndex);
-    if (this.pieceOnHand.isValidMove(newRow, newCol)) {
+    console.log(this.pieceOnHand.color, this.playerWhiteTurn)
+    const whitePlayerMove = this.pieceOnHand.color === 'white' ? true : false;
+
+    if (this.pieceOnHand.isValidMove(newRow, newCol) && this.playerWhiteTurn === whitePlayerMove) {
+      // capture piece
+      if (this.board[newRow][newCol] && this.board[newRow][newCol].color != this.pieceOnHand.color) {
+        this.capturePiece(this.board[newRow][newCol]);
+      } else {
+        this.board[oldRow][oldCol] = this.pieceOnHand;
+        console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+      }
+
       this.pieceOnHand.row = newRow;
       this.pieceOnHand.column = newCol;
-
-      // capture piece
-      if (this.board[newRow][newCol]) {
-        this.capturePiece(this.board[newRow][newCol]);
-      }
       this.board[rowIndex][colIndex] = this.pieceOnHand;
       this.board[oldRow][oldCol] = "";
       console.log(
@@ -131,13 +147,15 @@ class ChessBoard {
         newRow,
         newCol
       );
+      this.playerWhiteTurn = !this.playerWhiteTurn;
+      
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
       console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
     }
 
     this.pieceOnHand = "";
-
+    console.log('player turn:', this.playerWhiteTurn ? 'white' : 'black' )
     this.renderBoard();
   }
 
@@ -291,8 +309,8 @@ class King extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if (Math.abs(newRow - this.row) < 1) {
-      if (Math.abs(newCol - this.column) < 1) {
+    if (Math.abs(newRow - this.row) === 1) {
+      if (Math.abs(newCol - this.column) <= 1) {
         return true;
       }
       return false;

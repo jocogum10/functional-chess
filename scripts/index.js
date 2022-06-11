@@ -24,9 +24,11 @@ class ChessBoard {
       'white': []
     }
     this.pieceOnHand = "";
+    this.playerWhiteTurn = false
   }
 
   initialize() {
+    this.playerWhiteTurn = true
     this.capturedPieces = {
       'black': [],
       'white': []
@@ -118,8 +120,10 @@ class ChessBoard {
     const oldCol = this.pieceOnHand.column;
     const newRow = parseInt(rowIndex);
     const newCol = parseInt(colIndex);
-    if (this.pieceOnHand.isValidMove(newRow, newCol)) {
+    console.log(this.pieceOnHand.color, this.playerWhiteTurn)
+    const whitePlayerMove = this.pieceOnHand.color === 'white' ? true : false;
 
+    if (this.pieceOnHand.isValidMove(newRow, newCol) && this.playerWhiteTurn === whitePlayerMove) {
       // capture piece
       if (this.board[newRow][newCol] && this.board[newRow][newCol].color != this.pieceOnHand.color) {
         this.capturePiece(this.board[newRow][newCol]);
@@ -142,6 +146,7 @@ class ChessBoard {
         newRow,
         newCol
       );
+      this.playerWhiteTurn = !this.playerWhiteTurn;
       
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
@@ -149,7 +154,7 @@ class ChessBoard {
     }
 
     this.pieceOnHand = "";
-
+    console.log('player turn:', this.playerWhiteTurn ? 'white' : 'black' )
     this.renderBoard();
   }
 

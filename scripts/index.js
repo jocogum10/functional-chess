@@ -543,12 +543,16 @@ class Queen extends Piece {
         }
         return true
       } // left direction
-      // else if (enemyKingCol < this.column && enemyKingRow === this.row) {
-      //   for(let i=this.column-1; i < ){
-
-      //   }
-      // }
-    } 
+      else if (enemyKingCol < this.column && enemyKingRow === this.row) {
+        for(let i=this.column-1; i < enemyKingCol ; i--){
+          const pieceChecked = chessboard.board[this.row][i]
+          if(pieceChecked && (pieceChecked.type != 'bk' || pieceChecked.type != 'wk')){
+            return false
+          }
+        }
+        return true
+      }
+    }
     return false
   }
 }

@@ -1,40 +1,39 @@
 // variables
-let bb1
-let bb2
-let br1 
-let br2 
-let bq 
-let bk1 
-let bh1
-let bh2
-let bp0 
-let bp1 
-let bp2 
-let bp3 
-let bp4 
-let bp5 
-let bp6 
-let bp7 
+let bb1;
+let bb2;
+let br1;
+let br2;
+let bq;
+let bk1;
+let bh1;
+let bh2;
+let bp0;
+let bp1;
+let bp2;
+let bp3;
+let bp4;
+let bp5;
+let bp6;
+let bp7;
 //whites
-let wp0 
-let wp1 
-let wp2 
-let wp3 
-let wp4 
-let wp5 
-let wp6 
-let wp7 
-let wb1
-let wb2
-let wr1 
-let wr2 
-let wq 
-let wk1 
-let wh1
-let wh2
+let wp0;
+let wp1;
+let wp2;
+let wp3;
+let wp4;
+let wp5;
+let wp6;
+let wp7;
+let wb1;
+let wb2;
+let wr1;
+let wr2;
+let wq;
+let wk1;
+let wh1;
+let wh2;
 
-let chessboard
-
+let chessboard;
 
 // selectors
 const app = document.getElementById("app");
@@ -131,11 +130,11 @@ class ChessBoard {
         btnElement.addEventListener("click", (event) => {
           this.clickedCell(event.target.id);
 
-          this.playerWhiteTurn ? (
-              document.getElementById('player-turn').textContent = 'Player Turn: White'
-            ) : (
-              document.getElementById('player-turn').textContent = 'Player Turn: Black'
-            );
+          this.playerWhiteTurn
+            ? (document.getElementById("player-turn").textContent =
+                "Player Turn: White")
+            : (document.getElementById("player-turn").textContent =
+                "Player Turn: Black");
         });
       });
     });
@@ -195,14 +194,14 @@ class ChessBoard {
         newRow,
         newCol
       );
-      
+
       console.log(this.pieceOnHand);
-      if(this.playerWhiteTurn){
+      if (this.playerWhiteTurn) {
         const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
-        console.log('blackChecked', blackChecked)
+        console.log("blackChecked", blackChecked);
       } else {
         const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
-        console.log('whiteChecked', whiteChecked)
+        console.log("whiteChecked", whiteChecked);
       }
 
       this.playerWhiteTurn = !this.playerWhiteTurn;
@@ -395,7 +394,7 @@ class Piece {
   moveRules() {
     console.log("move rules");
   }
-  isChecked(){
+  isChecked() {
     return false;
   }
 }
@@ -522,40 +521,62 @@ class Queen extends Piece {
     return false;
   }
   // check all possible moves if king is in one of them
-  isChecked(enemyKingRow, enemyKingCol){
-    if(this.isValidMove(enemyKingRow, enemyKingCol)){
+  isChecked(enemyKingRow, enemyKingCol) {
+    if (this.isValidMove(enemyKingRow, enemyKingCol)) {
       // up direction
       if (enemyKingCol === this.column && enemyKingRow < this.row) {
-        for(let i=this.row-1 ; i > enemyKingRow; i--){
-          const pieceChecked = chessboard.board[i][this.column]
-          if(pieceChecked && (pieceChecked.type != 'bk' || pieceChecked.type != 'wk')){
-            return false
+        for (let i = this.row - 1; i > enemyKingRow; i--) {
+          const pieceChecked = chessboard.board[i][this.column];
+          if (
+            pieceChecked &&
+            (pieceChecked.type != "bk" || pieceChecked.type != "wk")
+          ) {
+            return false;
           }
         }
-        return true
+        return true;
       } // down direction
       else if (enemyKingCol === this.column && enemyKingRow > this.row) {
-        for(let i=this.row+1 ; i < enemyKingRow; i++){
-          const pieceChecked = chessboard.board[i][this.column]
-          if(pieceChecked && (pieceChecked.type != 'bk' || pieceChecked.type != 'wk')){
-            return false
+        for (let i = this.row + 1; i < enemyKingRow; i++) {
+          const pieceChecked = chessboard.board[i][this.column];
+          if (
+            pieceChecked &&
+            (pieceChecked.type != "bk" || pieceChecked.type != "wk")
+          ) {
+            return false;
           }
         }
-        return true
-      } // left direction
-      else if (enemyKingCol < this.column && enemyKingRow === this.row) {
-        for(let i=this.column-1; i < enemyKingCol ; i--){
-          const pieceChecked = chessboard.board[this.row][i]
-          if(pieceChecked && (pieceChecked.type != 'bk' || pieceChecked.type != 'wk')){
-            return false
-          }
-        }
-        return true
-      } // upper right diagonal
-      // else if ( enemyKingCol < this.column && enemyKingRow < this.row) {
+        return true;
+      }
 
-      // }
+      //left direction
+      else if (enemyKingCol < this.column && enemyKingRow === this.row) {
+        for (let i = this.column - 1; i < enemyKingCol; i--) {
+          const pieceChecked = chessboard.board[this.row][i];
+          if (
+            pieceChecked &&
+            (pieceChecked.type != "bk" || pieceChecked.type != "wk")
+          ) {
+            return false;
+          }
+        }
+        return true
+      } //right direction
+      else if (enemyKingCol > this.column && enemyKingRow === this.row) {
+        for (let i = this.column + 1; i < enemyKingCol; i++) {
+          const pieceChecked = chessboard.board[i][this.column];
+          if (
+            pieceChecked &&
+            (pieceChecked.type != "bk" || pieceChecked.type != "wk")
+          ) {
+            return false;
+          }
+        }
+        return true;
+      } 
+
     }
-    return false
+
+    return false;
   }
 }

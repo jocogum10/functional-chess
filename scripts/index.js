@@ -130,6 +130,12 @@ class ChessBoard {
         const btnElement = document.getElementById(`${indexRow}${indexColumn}`);
         btnElement.addEventListener("click", (event) => {
           this.clickedCell(event.target.id);
+
+          this.playerWhiteTurn ? (
+              document.getElementById('player-turn').textContent = 'Player Turn: White'
+            ) : (
+              document.getElementById('player-turn').textContent = 'Player Turn: Black'
+            );
         });
       });
     });
@@ -527,7 +533,21 @@ class Queen extends Piece {
           }
         }
         return true
-      }
+      } // down direction
+      else if (enemyKingCol === this.column && enemyKingRow > this.row) {
+        for(let i=this.row+1 ; i < enemyKingRow; i++){
+          const pieceChecked = chessboard.board[i][this.column]
+          if(pieceChecked && (pieceChecked.type != 'bk' || pieceChecked.type != 'wk')){
+            return false
+          }
+        }
+        return true
+      } // left direction
+      // else if (enemyKingCol < this.column && enemyKingRow === this.row) {
+      //   for(let i=this.column-1; i < ){
+
+      //   }
+      // }
     } 
     return false
   }

@@ -1,11 +1,7 @@
 @use "./animations";
 @import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
 
-// $dark-color: #5F7161;
-// $dark-color: #354259;
 $dark-color: #bb6464;
-// $light-color: #D0C9C0;
-// $light-color: #CDC2AE;
 $light-color: #cdb699;
 $bg-url: url("../images/bg3.jpg");
 
@@ -54,10 +50,12 @@ $bg-url: url("../images/bg3.jpg");
   .header-container {
     color: $light-color;
     width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
   }
 
   .chess-board {
-    // border: 1px solid green;
 
     width: 55vw;
     height: 55vw;

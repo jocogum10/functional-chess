@@ -56,6 +56,9 @@
 #app .header-container {
   color: #cdb699;
   width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 #app .chess-board {
   width: 55vw;

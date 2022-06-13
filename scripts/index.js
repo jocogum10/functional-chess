@@ -551,7 +551,10 @@ class Queen extends Piece {
           }
         }
         return true
-      }
+      } // upper right diagonal
+      // else if ( enemyKingCol < this.column && enemyKingRow < this.row) {
+
+      // }
     }
     return false
   }

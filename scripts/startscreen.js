@@ -37,6 +37,7 @@ const makeModal = () => {
     whoStartsFirst = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
     console.log(whoStartsFirst);
     renderApp(appElement, whoStartsFirst);
+    overlay.remove();
     modal.remove();
   };
 

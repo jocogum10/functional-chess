@@ -16,7 +16,7 @@
 .captured-box {
   order: 1;
   width: 35vw;
-  min-width: 400px;
+  min-width: 350px;
   display: grid;
   gap: 10px;
   box-shadow: 0px 20px 10px 0px rgba(0, 0, 0, 0.082);
@@ -78,6 +78,54 @@ header #player-turn {
   font-weight: 200;
 }
 
+/*check here https://colorpalettes.net/color-palette-2285/ */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-start {
+  width: 95vw;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.33rem;
+  background-color: #dfb995;
+  color: #1c1616;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow: 0px 20px 20px 20px rgba(0, 0, 0, 0.104);
+}
+.modal-start p {
+  font-weight: 200;
+  font-size: 0.7rem;
+}
+.modal-start h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+.modal-start button {
+  font-size: 0.5rem;
+  padding: 10px 40px;
+  border: none;
+  border-radius: 20px;
+  font-weight: 200;
+  cursor: pointer;
+}
+.modal-start button:hover {
+  opacity: 0.8;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -100,8 +148,8 @@ header #player-turn {
   border-radius: 5px;
   width: 35vw;
   height: 35vw;
-  min-width: 400px;
-  min-height: 400px;
+  min-width: 350px;
+  min-height: 350px;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);

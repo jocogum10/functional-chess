@@ -1,6 +1,8 @@
 @use "./animations";
 @use "./captured";
 @use "./header";
+@use "./modal";
+
 @import "./colors";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap");
 
@@ -26,8 +28,8 @@
     border-radius: 5px;
     width: 35vw;
     height: 35vw;
-    min-width: 400px;
-    min-height: 400px;
+    min-width: 350px;
+    min-height: 350px;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);

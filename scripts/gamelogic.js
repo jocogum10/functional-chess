@@ -179,8 +179,7 @@ class ChessBoard {
       this.pieceOnHand.row = newRow;
       this.pieceOnHand.column = newCol;
       this.board[rowIndex][colIndex] = this.pieceOnHand;
-      
-      
+
       console.log(
         "placing",
         this.pieceOnHand.id,
@@ -203,7 +202,6 @@ class ChessBoard {
       if (oldRow !== newRow || oldCol !== newCol) {
         this.playerWhiteTurn = !this.playerWhiteTurn;
       }
-      
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
       console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
@@ -407,30 +405,36 @@ class Pawn extends Piece {
     console.log(this.firstMove);
     if (this.color == "black") {
       if (this.firstMove === true) {
+        if (chessboard.board[newRow][newCol]) return false;
         if (newRow <= this.row + 2 && newCol === this.column) {
           this.firstMove = false;
           return true;
         }
       }
 
-      if (newRow === this.row + 1 && newCol === this.column) return true;
+      if (newRow === this.row + 1 && newCol === this.column) {
+        if (chessboard.board[newRow][newCol]) return false;
+        return true;
+      }
 
       if (
         newCol === this.column + 1 ||
         (newCol === this.column - 1 && newRow === this.row + 1)
       ) {
-        return true;
+        if (!chessboard.board[newRow][newCol]) return false;
+        else return true;
       }
-
       return false;
     } else {
       if (this.firstMove === true) {
+        if (chessboard.board[newRow][newCol]) return false;
         if (newRow <= this.row + 2 && newCol === this.column) {
           this.firstMove = false;
           return true;
         }
       }
       if (newRow === this.row - 1 && newCol === this.column) {
+        if (chessboard.board[newRow][newCol]) return false;
         return true;
       }
 
@@ -438,8 +442,8 @@ class Pawn extends Piece {
         newCol === this.column + 1 ||
         (newCol === this.column - 1 && newRow === this.row - 1)
       ) {
-        if (chessboard.board[newCol][newRow] != null) return true;
-        else return false;
+        if (!chessboard.board[newRow][newCol]) return false;
+        else return true;
       }
       return false;
     }
@@ -568,7 +572,7 @@ class Queen extends Piece {
             return false;
           }
         }
-        return true
+        return true;
       } //right direction
       else if (enemyKingCol > this.column && enemyKingRow === this.row) {
         for (let i = this.column + 1; i < enemyKingCol; i++) {
@@ -581,13 +585,14 @@ class Queen extends Piece {
           }
         }
         return true;
-      } 
-      // upper right 
+      }
+      // upper right
       else if (enemyKingCol > this.column && enemyKingRow < this.row) {
-        for(let i = this.column + 1; i < enemyKingCol; i++){
-          const increment = i - this.column
-          const pieceChecked = chessboard.board[this.row-increment][this.column+increment];
-          console.log(pieceChecked)
+        for (let i = this.column + 1; i < enemyKingCol; i++) {
+          const increment = i - this.column;
+          const pieceChecked =
+            chessboard.board[this.row - increment][this.column + increment];
+          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -597,12 +602,13 @@ class Queen extends Piece {
         }
         return true;
       }
-      // upper left 
+      // upper left
       else if (enemyKingCol < this.column && enemyKingRow < this.row) {
-        for(let i = this.column - 1 ; i > enemyKingCol; i--){
-          const increment = this.column - i
-          const pieceChecked = chessboard.board[this.row-increment][this.column-increment];
-          console.log(pieceChecked)
+        for (let i = this.column - 1; i > enemyKingCol; i--) {
+          const increment = this.column - i;
+          const pieceChecked =
+            chessboard.board[this.row - increment][this.column - increment];
+          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -612,12 +618,13 @@ class Queen extends Piece {
         }
         return true;
       }
-      // lower right 
+      // lower right
       else if (enemyKingCol > this.column && enemyKingRow > this.row) {
-        for(let i = this.column + 1 ; i < enemyKingCol; i++){
-          const increment = i - this.column
-          const pieceChecked = chessboard.board[this.row+increment][this.column+increment];
-          console.log(pieceChecked)
+        for (let i = this.column + 1; i < enemyKingCol; i++) {
+          const increment = i - this.column;
+          const pieceChecked =
+            chessboard.board[this.row + increment][this.column + increment];
+          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -627,12 +634,13 @@ class Queen extends Piece {
         }
         return true;
       }
-      // lower left 
+      // lower left
       else if (enemyKingCol < this.column && enemyKingRow > this.row) {
-        for(let i = this.column - 1 ; i > enemyKingCol; i--){
-          const increment = this.column - i
-          const pieceChecked = chessboard.board[this.row+increment][this.column-increment];
-          console.log(pieceChecked)
+        for (let i = this.column - 1; i > enemyKingCol; i--) {
+          const increment = this.column - i;
+          const pieceChecked =
+            chessboard.board[this.row + increment][this.column - increment];
+          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -651,7 +659,7 @@ class Queen extends Piece {
 // functions
 export default function renderApp(appElement, doesWhiteStart) {
   // game
-  const chessboard = new ChessBoard();
+  chessboard = new ChessBoard();
   chessboard.initialize(doesWhiteStart);
   chessboard.renderBoard();
   console.log(chessboard.board);

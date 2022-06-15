@@ -36,20 +36,12 @@ let wh2;
 let chessboard;
 
 // selectors
-const app = document.getElementById("app");
+// const app = document.getElementById("app");
 
-// event listeners
-window.addEventListener("load", () => {
-  renderApp(app);
-});
-
-// functions
-function renderApp(appElement) {
-  // game
-  chessboard = new ChessBoard();
-  chessboard.initialize();
-  chessboard.renderBoard();
-}
+// // event listeners
+// window.addEventListener("load", () => {
+//   renderApp(app);
+// });
 
 class ChessBoard {
   constructor() {
@@ -62,8 +54,11 @@ class ChessBoard {
     this.playerWhiteTurn = false;
   }
 
-  initialize() {
-    this.playerWhiteTurn = true;
+  initialize(doesWhiteStart) {
+    this.playerWhiteTurn = doesWhiteStart;
+    document.getElementById("player-turn").textContent = this.playerWhiteTurn
+      ? "Player Turn: White"
+      : "Player Turn: Black";
     this.capturedPieces = {
       black: [],
       white: [],
@@ -640,4 +635,12 @@ class Queen extends Piece {
 
     return false;
   }
+}
+
+// functions
+export default function renderApp(appElement, doesWhiteStart) {
+  // game
+  chessboard = new ChessBoard();
+  chessboard.initialize(doesWhiteStart);
+  chessboard.renderBoard();
 }

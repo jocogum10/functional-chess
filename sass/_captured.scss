@@ -1,0 +1,49 @@
+@import "./colors";
+
+.captured-box {
+  order: +1;
+  width: 35vw;
+  min-width: 350px;
+  display: grid;
+  gap: 10px;
+  box-shadow: 0px 20px 10px 0px rgba(0, 0, 0, 0.082);
+}
+.captured-pieces {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 1.5rem;
+  width: 100%;
+  .fa-solid {
+    font-size: 0.6em;
+  }
+  .captured-by-white {
+    background-color: $light-color;
+    padding: 3px 0.5rem;
+    border-radius: 5px 0 0 5px;
+    gap: 10px;
+    align-items: center;
+    .fa-solid {
+      color: $black-player !important;
+    }
+  }
+  .captured-by-black {
+    background-color: $dark-color;
+    padding: 3px 0.5rem;
+    border-radius: 0 5px 5px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    .fa-solid {
+      color: $white-player !important;
+    }
+  }
+}
+
+.header-text {
+  font-size: 0.7rem;
+  color: $light-color;
+  text-align: center;
+  font-weight: 200;
+}

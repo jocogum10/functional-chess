@@ -35,7 +35,7 @@ const makeModal = () => {
 
   coinToss.onclick = () => {
     whoStartsFirst = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
-    console.log(whoStartsFirst);
+    console.log(whoStartsFirst === true ? "White Start" : "Black Start");
     renderApp(appElement, whoStartsFirst);
     overlay.remove();
     modal.remove();
@@ -50,4 +50,4 @@ const startScreen = () => {
   return makeModal();
 };
 
-export default startScreen();
+export default startScreen;

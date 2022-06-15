@@ -1,67 +1,42 @@
 @use "./animations";
-@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
+@use "./captured";
+@use "./header";
+@use "./modal";
 
-$dark-color: #bb6464;
-$light-color: #cdb699;
-$bg-url: url("../images/bg3.jpg");
+@import "./colors";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400&display=swap");
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Chango", cursive;
   font-size: 5vh;
-}
-
-.captured-pieces {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
-  height: 50px;
-  width: 50vw;
-  order: +2;
-
-  .captured-by-white {
-    background-color: white;
-    padding: 0.5rem;
-  }
-  .captured-by-black {
-    background-color: black;
-    padding: 0.5rem;
-  }
-}
-.header-text {
-  font-size: 0.7rem;
-  color: $light-color;
-  text-align: center;
-  order: +1;
+  font-family: "Inter", sans-serif;
 }
 
 #app {
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   align-items: center;
-  justify-content: flex-start;
-  font-size: 1rem;
-  background-image: $bg-url;
-  background-size: cover;
-
-  .header-container {
-    color: $light-color;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-items: center;
+  background-color: $background-color;
 
   .chess-board {
-
-    width: 55vw;
-    height: 55vw;
+    font-size: 1vw;
+    border: 5px solid $dark-color;
+    border-radius: 5px;
+    width: 35vw;
+    height: 35vw;
+    min-width: 350px;
+    min-height: 350px;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
+
+    //shadow
+    box-shadow: 0px 20px 10px 0px rgba(0, 0, 0, 0.082);
+
     // gap: 1px;
     grid-template-areas:
       "00 01 02 03 04 05 06 07"
@@ -74,11 +49,14 @@ $bg-url: url("../images/bg3.jpg");
       "70 71 72 73 74 75 76 77";
 
     .chess-cell {
-      border: none;
-
+      border: 1px solid black;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      .fa-solid {
+        font-size: max(3vw, 30px);
+      }
     }
     .chess-cell:hover {
       opacity: 0.9;
@@ -91,10 +69,10 @@ $bg-url: url("../images/bg3.jpg");
       background-color: $light-color;
     }
     .black-player {
-      color: black;
+      color: $black-player;
     }
     .white-player {
-      color: white;
+      color: $white-player;
     }
     i {
       pointer-events: none;

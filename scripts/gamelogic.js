@@ -662,5 +662,9 @@ export default function renderApp(appElement, doesWhiteStart) {
   chessboard = new ChessBoard();
   chessboard.initialize(doesWhiteStart);
   chessboard.renderBoard();
+  const cell = document.querySelectorAll(".fa-solid");
+  cell.forEach((cells) => {
+    cells.classList.add("fadeIn");
+  });
   console.log(chessboard.board);
 }

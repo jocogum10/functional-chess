@@ -17,6 +17,7 @@ const makeModal = () => {
   const overlay = makeOverlay();
   const modal = document.createElement("div");
   modal.classList.add("modal-start");
+  modal.classList.add("fadeUp");
 
   //header
   const h3 = document.createElement("h3");
@@ -47,7 +48,7 @@ const makeModal = () => {
 };
 
 const startScreen = () => {
-  return makeModal();
+  makeModal();
 };
 
 export default startScreen;

@@ -406,25 +406,36 @@ class Pawn extends Piece {
         if (newRow <= this.row + 2 && newCol === this.column) {
           this.firstMove = false;
           return true;
-        } else {
-          return false;
         }
       }
-      if (newRow === this.row + 1 && newCol === this.column) {
+
+      if (newRow === this.row + 1 && newCol === this.column) return true;
+
+      if (
+        newCol === this.column + 1 ||
+        (newCol === this.column - 1 && newRow === this.row + 1)
+      ) {
         return true;
       }
+
       return false;
     } else {
       if (this.firstMove === true) {
         if (newRow <= this.row + 2 && newCol === this.column) {
           this.firstMove = false;
           return true;
-        } else {
-          return false;
         }
       }
       if (newRow === this.row - 1 && newCol === this.column) {
         return true;
+      }
+
+      if (
+        newCol === this.column + 1 ||
+        (newCol === this.column - 1 && newRow === this.row - 1)
+      ) {
+        if (chessboard.board[newCol][newRow] != null) return true;
+        else return false;
       }
       return false;
     }
@@ -580,7 +591,8 @@ class Queen extends Piece {
 // functions
 export default function renderApp(appElement, doesWhiteStart) {
   // game
-  chessboard = new ChessBoard();
+  const chessboard = new ChessBoard();
   chessboard.initialize(doesWhiteStart);
   chessboard.renderBoard();
+  console.log(chessboard.board);
 }

@@ -396,6 +396,22 @@ class Piece {
   isChecked() {
     return false;
   }
+  isNoPiece(startRow, startColumn, endRow, endColumn){
+    // up direction
+    if (endColumn === startColumn && endRow < startRow) {
+      console.log('up direction')
+      for (let i = startRow - 1; i > endRow; i--) {
+        const existingPiece = chessboard.board[i][startColumn];
+        if (
+          existingPiece
+        ) {
+          return false;
+        }
+      }
+      return true;
+    } 
+  }
+
 }
 
 class Pawn extends Piece {
@@ -512,11 +528,14 @@ class Queen extends Piece {
   }
   isValidMove(newRow, newCol) {
     //move like bishop
-    if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
       return true;
-    //move like rook
-    if (newRow != this.row && newCol === this.column) return true;
-    if (newRow === this.row && newCol != this.column) return true;
+      //move like rook
+      if (newRow != this.row && newCol === this.column) return true;
+      if (newRow === this.row && newCol != this.column) return true;
+      return false;
+    }
     return false;
   }
   // check all possible moves if king is in one of them
@@ -632,7 +651,6 @@ class Queen extends Piece {
         return true;
       }
     }
-
     return false;
   }
 }

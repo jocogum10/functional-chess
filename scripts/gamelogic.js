@@ -157,12 +157,12 @@ class ChessBoard {
     const oldCol = this.pieceOnHand.column;
     const newRow = parseInt(rowIndex);
     const newCol = parseInt(colIndex);
-    console.log(this.pieceOnHand.color, this.playerWhiteTurn);
     const whitePlayerMove = this.pieceOnHand.color === "white" ? true : false;
 
     if (
       this.pieceOnHand.isValidMove(newRow, newCol) &&
-      this.playerWhiteTurn === whitePlayerMove
+      this.playerWhiteTurn === whitePlayerMove &&
+      this.pieceOnHand.color != this.board[newRow][newCol].color
     ) {
       // capture piece
       if (
@@ -191,14 +191,15 @@ class ChessBoard {
         newCol
       );
 
-      console.log(this.pieceOnHand);
-      if (this.playerWhiteTurn) {
-        const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
-        console.log("blackChecked", blackChecked);
-      } else {
-        const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
-        console.log("whiteChecked", whiteChecked);
-      }
+      // if (this.playerWhiteTurn) {
+      //   const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
+      //   console.log("blackChecked", blackChecked);
+      // } else {
+      //   const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
+      //   console.log("whiteChecked", whiteChecked);
+      // }
+      console.log('Black isChecked', this.pieceOnHand.isChecked(bk1.row, bk1.column))
+      console.log('White isChecked', this.pieceOnHand.isChecked(wk1.row, wk1.column))
       if (oldRow !== newRow || oldCol !== newCol) {
         this.playerWhiteTurn = !this.playerWhiteTurn;
       }
@@ -333,7 +334,6 @@ class ChessBoard {
         if (pieceToPlace) {
           const pieceSVG = document.createElement("i");
           pieceSVG.setAttribute("class", "fa-solid");
-          // console.log(pieceSVG)
           switch (pieceType) {
             case "p":
               pieceSVG.classList.add("fa-chess-pawn");
@@ -388,152 +388,13 @@ class Piece {
     this.color = color;
     this.type = type;
   }
-  moveRules() {
-    console.log("move rules");
-  }
-  isChecked() {
+  isValidMove() {
     return false;
   }
-}
+  // isChecked() {
+  //   return false;
+  // }
 
-class Pawn extends Piece {
-  constructor(id, row, column, color, type) {
-    super(id, row, column, color, type);
-    this.firstMove = true;
-  }
-  isValidMove(newRow, newCol) {
-    console.log(this.firstMove);
-    if (this.color == "black") {
-      if (this.firstMove === true) {
-        if (chessboard.board[newRow][newCol]) return false;
-        if (newRow <= this.row + 2 && newCol === this.column) {
-          this.firstMove = false;
-          return true;
-        }
-      }
-
-      if (newRow === this.row + 1 && newCol === this.column) {
-        if (chessboard.board[newRow][newCol]) return false;
-        return true;
-      }
-
-      if (
-        newCol === this.column + 1 ||
-        (newCol === this.column - 1 && newRow === this.row + 1)
-      ) {
-        if (!chessboard.board[newRow][newCol]) return false;
-        else return true;
-      }
-      return false;
-    } else {
-      if (this.firstMove === true) {
-        if (chessboard.board[newRow][newCol]) return false;
-        if (newRow <= this.row + 2 && newCol === this.column) {
-          this.firstMove = false;
-          return true;
-        }
-      }
-      if (newRow === this.row - 1 && newCol === this.column) {
-        if (chessboard.board[newRow][newCol]) return false;
-        return true;
-      }
-
-      if (
-        newCol === this.column + 1 ||
-        (newCol === this.column - 1 && newRow === this.row - 1)
-      ) {
-        if (!chessboard.board[newRow][newCol]) return false;
-        else return true;
-      }
-      return false;
-    }
-  }
-}
-
-class King extends Piece {
-  constructor(id, row, column, color, type) {
-    super(id, row, column, color, type);
-  }
-  isValidMove(newRow, newCol) {
-    if (Math.abs(newRow - this.row) === 1) {
-      if (Math.abs(newCol - this.column) <= 1) {
-        return true;
-      }
-      return false;
-    } else if (Math.abs(newCol - this.column) === 1) {
-      if (Math.abs(newRow - this.row) <= 1) {
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
-}
-
-class Bishop extends Piece {
-  constructor(id, row, column, color, type) {
-    super(id, row, column, color, type);
-  }
-  isValidMove(newRow, newCol) {
-    if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
-      return true;
-    return false;
-  }
-}
-
-class Rook extends Piece {
-  constructor(id, row, column, color, type) {
-    super(id, row, column, color, type);
-  }
-  isValidMove(newRow, newCol) {
-    if (Math.abs(newRow < this.row || newRow > this.row)) {
-      if (Math.abs(newCol === this.column)) {
-        return true;
-      }
-      return false;
-    }
-    if (newRow === this.row) {
-      if (newCol != this.column) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-
-class Knight extends Piece {
-  constructor(id, row, column, color, type) {
-    super(id, row, column, color, type);
-  }
-  isValidMove(newRow, newCol) {
-    if (Math.abs(newRow - this.row) === 2) {
-      if (Math.abs(newCol - this.column) === 1) {
-        return true;
-      }
-      return false;
-    } else if (Math.abs(newCol - this.column) === 2) {
-      if (Math.abs(newRow - this.row) === 1) {
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
-}
-
-class Queen extends Piece {
-  constructor(id, row, column, color, type) {
-    super(id, row, column, color, type);
-  }
-  isValidMove(newRow, newCol) {
-    //move like bishop
-    if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
-      return true;
-    //move like rook
-    if (newRow != this.row && newCol === this.column) return true;
-    if (newRow === this.row && newCol != this.column) return true;
-    return false;
-  }
   // check all possible moves if king is in one of them
   isChecked(enemyKingRow, enemyKingCol) {
     if (this.isValidMove(enemyKingRow, enemyKingCol)) {
@@ -592,7 +453,6 @@ class Queen extends Piece {
           const increment = i - this.column;
           const pieceChecked =
             chessboard.board[this.row - increment][this.column + increment];
-          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -608,7 +468,6 @@ class Queen extends Piece {
           const increment = this.column - i;
           const pieceChecked =
             chessboard.board[this.row - increment][this.column - increment];
-          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -624,7 +483,6 @@ class Queen extends Piece {
           const increment = i - this.column;
           const pieceChecked =
             chessboard.board[this.row + increment][this.column + increment];
-          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -640,7 +498,6 @@ class Queen extends Piece {
           const increment = this.column - i;
           const pieceChecked =
             chessboard.board[this.row + increment][this.column - increment];
-          console.log(pieceChecked);
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -651,9 +508,268 @@ class Queen extends Piece {
         return true;
       }
     }
-
     return false;
   }
+
+  isNoPiece(startRow, startColumn, endRow, endColumn){
+    // up direction
+    if (endColumn === startColumn && endRow < startRow) {
+      for (let i = startRow - 1; i > endRow; i--) {
+        const existingPiece = chessboard.board[i][startColumn];
+        if (
+          existingPiece
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }  
+    // down direction
+    else if (endColumn === startColumn && endRow > startRow) {
+      for (let i = startRow + 1; i < endRow; i++) {
+        const existingPiece = chessboard.board[i][startColumn];
+        if (
+          existingPiece
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    //left direction
+    else if (endColumn < startColumn && endRow === startRow) {
+      for (let i = startColumn - 1; i < endColumn; i--) {
+        const existingPiece = chessboard.board[startRow][i];
+        if (
+          existingPiece
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    //right direction
+    else if (endColumn > startColumn && endRow === startRow) {
+      for (let i = startColumn + 1; i < endColumn; i++) {
+        const existingPiece = chessboard.board[startRow][i];
+        if (
+          existingPiece
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    // upper right
+    else if (endColumn > startColumn && endRow < startRow) {
+      for (let i = startColumn + 1; i < endColumn; i++) {
+        const increment = i - startColumn;
+        const existingPiece = chessboard.board[startRow - increment][startColumn + increment];
+        if (
+          existingPiece &&
+          (existingPiece.type != "bk" || existingPiece.type != "wk")
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    // upper left
+    else if (endColumn < startColumn && endRow < startRow) {
+      for (let i = startColumn - 1; i > endColumn; i--) {
+        const increment = startColumn - i;
+        const existingPiece = chessboard.board[startRow - increment][startColumn - increment];
+        if (
+          existingPiece &&
+          (existingPiece.type != "bk" || existingPiece.type != "wk")
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    // lower right
+    else if (endColumn > startColumn && endRow > startRow) {
+      for (let i = startColumn + 1; i < endColumn; i++) {
+        const increment = i - startColumn;
+        const existingPiece = chessboard.board[startRow + increment][startColumn + increment];
+        if (
+          existingPiece &&
+          (existingPiece.type != "bk" || existingPiece.type != "wk")
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+    // lower left
+    else if (endColumn < startColumn && endRow > startRow) {
+      for (let i = startColumn - 1; i > endColumn; i--) {
+        const increment = startColumn - i;
+        const existingPiece = chessboard.board[startRow + increment][startColumn - increment];
+        if (
+          existingPiece &&
+          (existingPiece.type != "bk" || existingPiece.type != "wk")
+        ) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+}
+
+class Pawn extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+    this.firstMove = true;
+  }
+  isValidMove(newRow, newCol) {
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      if (this.color == "black") {
+        if (this.firstMove === true) {
+          if (chessboard.board[newRow][newCol]) return false;
+          if (newRow <= this.row + 2 && newCol === this.column) {
+            this.firstMove = false;
+            return true;
+          }
+        }
+  
+        if (newRow === this.row + 1 && newCol === this.column) {
+          if (chessboard.board[newRow][newCol]) return false;
+          return true;
+        }
+  
+        if (
+          newCol === this.column + 1 ||
+          (newCol === this.column - 1 && newRow === this.row + 1)
+        ) {
+          if (!chessboard.board[newRow][newCol]) return false;
+          else return true;
+        }
+        return false;
+      } else {
+        if (this.firstMove === true) {
+          if (chessboard.board[newRow][newCol]) return false;
+          if (newRow <= this.row + 2 && newCol === this.column) {
+            this.firstMove = false;
+            return true;
+          }
+        }
+        if (newRow === this.row - 1 && newCol === this.column) {
+          if (chessboard.board[newRow][newCol]) return false;
+          return true;
+        }
+  
+        if (
+          newCol === this.column + 1 ||
+          (newCol === this.column - 1 && newRow === this.row - 1)
+        ) {
+          if (!chessboard.board[newRow][newCol]) return false;
+          else return true;
+        }
+        return false;
+      }
+    }
+  }
+}
+
+class King extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+  }
+  isValidMove(newRow, newCol) {
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      if (Math.abs(newRow - this.row) === 1) {
+        if (Math.abs(newCol - this.column) <= 1) {
+          return true;
+        }
+        return false;
+      } else if (Math.abs(newCol - this.column) === 1) {
+        if (Math.abs(newRow - this.row) <= 1) {
+          return true;
+        }
+        return false;
+      }
+    }
+    return false;
+  }
+}
+
+class Bishop extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+  }
+  isValidMove(newRow, newCol) {
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
+      return true;
+    }
+    return false;
+  }
+}
+
+class Rook extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+  }
+  isValidMove(newRow, newCol) {
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      if (Math.abs(newRow < this.row || newRow > this.row)) {
+        if (Math.abs(newCol === this.column)) {
+          return true;
+        }
+        return false;
+      }
+      if (newRow === this.row) {
+        if (newCol != this.column) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+}
+
+class Knight extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+  }
+  isValidMove(newRow, newCol) {
+    if (Math.abs(newRow - this.row) === 2) {
+      if (Math.abs(newCol - this.column) === 1) {
+        return true;
+      }
+      return false;
+    } else if (Math.abs(newCol - this.column) === 2) {
+      if (Math.abs(newRow - this.row) === 1) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+}
+
+class Queen extends Piece {
+  constructor(id, row, column, color, type) {
+    super(id, row, column, color, type);
+  }
+  isValidMove(newRow, newCol) {
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      //move like bishop
+      if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
+      return true;
+      //move like rook
+      if (newRow != this.row && newCol === this.column) return true;
+      if (newRow === this.row && newCol != this.column) return true;
+      return false;
+    }
+    return false;
+  }
+  
+
 }
 
 // functions

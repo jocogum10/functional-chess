@@ -4,6 +4,32 @@
   animation: blinkingText 0.5s infinite;
 }
 
+.fadeIn {
+  animation: fadeInAnim 0.5s forwards;
+}
+
+.fadeUp {
+  animation: fadeUp 0.5s forwards;
+}
+
+@keyframes fadeInAnim {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 @keyframes blinkingText {
   from {
     opacity: 0;
@@ -92,6 +118,7 @@ header #player-turn {
 }
 
 .modal-start {
+  opacity: 0;
   width: 95vw;
   max-width: 450px;
   display: flex;

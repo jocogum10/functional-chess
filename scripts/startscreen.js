@@ -17,6 +17,7 @@ const makeModal = () => {
   const overlay = makeOverlay();
   const modal = document.createElement("div");
   modal.classList.add("modal-start");
+  modal.classList.add("fadeUp");
 
   //header
   const h3 = document.createElement("h3");
@@ -35,7 +36,7 @@ const makeModal = () => {
 
   coinToss.onclick = () => {
     whoStartsFirst = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
-    console.log(whoStartsFirst);
+    console.log(whoStartsFirst === true ? "White Start" : "Black Start");
     renderApp(appElement, whoStartsFirst);
     overlay.remove();
     modal.remove();
@@ -47,7 +48,7 @@ const makeModal = () => {
 };
 
 const startScreen = () => {
-  return makeModal();
+  makeModal();
 };
 
-export default startScreen();
+export default startScreen;

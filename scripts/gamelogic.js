@@ -178,6 +178,28 @@ class ChessBoard {
   // -------------------------------------------------------
   // logic functions
 
+  playerIsChecked(playerColor) {
+    let playerChecked = false;
+
+    for(let i = 0; i < 7; i++){
+      for(let j = 0; j < 7; j++){
+
+        const currentCell = this.board[i][j]
+        const isEnemyPiece = currentCell && currentCell.color != playerColor
+        if (isEnemyPiece) {
+          const kingPiece = playerColor === 'white' ? wk1 : bk1
+          const pieceChecks = currentCell.isChecked(kingPiece.row, kingPiece.column)
+          if (pieceChecks) {
+            playerChecked = true;
+            break;
+          }
+        }
+      }
+    }
+
+    return playerChecked;
+  }
+
   capturePiece(piece) {
     if (piece.color === "black") {
       this.capturedPieces.black.push(piece);
@@ -248,36 +270,39 @@ class ChessBoard {
       );
       
       // check if current move check opponent piece
-      if (this.playerWhiteTurn) {
-        const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
+      
+      // if (this.playerWhiteTurn) {
+        const blackChecked = this.playerIsChecked('black');
         console.log("Black isChecked", blackChecked);
-        const blackIsChecked = document.getElementById(
+        const blackCheckedElement = document.getElementById(
           `${bk1.row}${bk1.column}`
         );
 
-        blackIsChecked.removeAttribute("style");
+        blackCheckedElement.removeAttribute("style");
         if (blackChecked) {
-          blackIsChecked.setAttribute("style", "background-color: red");
+          blackCheckedElement.setAttribute("style", "background-color: red");
 
           checkObjBlack.isCheck = true;
           checkObjBlack.pieceWhichChecked = this.pieceOnHand;
           checkObjBlack.whereKing = [bk1.row, bk1.column];
         }
-      } else {
-        const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
+      // } else {
+        const whiteChecked = this.playerIsChecked('white');
         console.log("White isChecked", whiteChecked);
-        const whiteIsChecked = document.getElementById(
+        const whiteCheckedElement = document.getElementById(
           `${wk1.row}${wk1.column}`
         );
-        whiteIsChecked.removeAttribute("style");
+        whiteCheckedElement.removeAttribute("style");
         if (whiteChecked) {
           checkObjWhite.isCheck = true;
           checkObjWhite.pieceWhichChecked = this.pieceOnHand;
           checkObjWhite.whereKing = [bk1.row, bk1.column];
 
-          whiteIsChecked.setAttribute("style", "background-color: red");
+          whiteCheckedElement.setAttribute("style", "background-color: red");
         }
-      }
+      // }
+
+
       // check if the current player made a valid move then switch player
       if (oldRow !== newRow || oldCol !== newCol) {
         this.playerWhiteTurn = !this.playerWhiteTurn;

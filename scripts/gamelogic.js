@@ -121,24 +121,24 @@ class ChessBoard {
     wh2 = new Knight("wh2", 7, 6, "white", "wh");
 
     this.board = [
-      // [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
-      // [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
-      // ["", "", "", "", "", "", "", ""], //6
-      // ["", "", "", "", "", "", "", ""], //5
-      // ["", "", "", "", "", "", "", ""], //4
-      // ["", "", "", "", "", "", "", ""], //3
-      // [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
-      // [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
-      // //    a   b  c   d    e  f    g   h
-
-      ["", "", "", bk1, bq, "", "", ""], //8
-      ["", "", "", "", "", "", "", ""], //7
+      [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
+      [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
       ["", "", "", "", "", "", "", ""], //6
       ["", "", "", "", "", "", "", ""], //5
       ["", "", "", "", "", "", "", ""], //4
       ["", "", "", "", "", "", "", ""], //3
-      ["", "", "", "", "", "", "", ""], //2
-      ["", "", "", wk1, wq, "", "", ""], //1
+      [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
+      [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
+      //    a   b  c   d    e  f    g   h
+
+      // ["", "", "", bk1, bq, "", "", ""], //8
+      // ["", "", "", "", "", "", "", ""], //7
+      // ["", "", "", "", "", "", "", ""], //6
+      // ["", "", "", "", "", "", "", ""], //5
+      // ["", "", "", "", "", "", "", ""], //4
+      // ["", "", "", "", "", "", "", ""], //3
+      // ["", "", "", "", "", "", "", ""], //2
+      // ["", "", "", wk1, wq, "", "", ""], //1
       //    a   b  c   d    e  f    g   h
     ];
     this.board.forEach((rowArray, indexRow) => {
@@ -622,7 +622,7 @@ class Piece {
     }
     //left direction
     else if (endColumn < startColumn && endRow === startRow) {
-      for (let i = startColumn - 1; i < endColumn; i--) {
+      for (let i = startColumn - 1; i > endColumn; i--) {
         const existingPiece = chessboard.board[startRow][i];
         if (existingPiece) {
           return false;

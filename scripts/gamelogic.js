@@ -1,3 +1,4 @@
+import checkMate from "./checkMate.js";
 // variables
 let bb1;
 let bb2;
@@ -34,6 +35,12 @@ let wh1;
 let wh2;
 
 let chessboard;
+
+let Checkobj = {
+  isCheck: false,
+  pieceWhichChecked: {},
+  whereKing: [],
+};
 
 // selectors
 // const app = document.getElementById("app");
@@ -125,6 +132,10 @@ class ChessBoard {
         btnElement.addEventListener("click", (event) => {
           this.clickedCell(event.target.id);
 
+          if (Checkobj.isCheck === true) {
+            checkMate(this.board, Checkobj);
+          }
+
           this.playerWhiteTurn
             ? (document.getElementById("player-turn").textContent =
                 "Player Turn: White")
@@ -137,6 +148,7 @@ class ChessBoard {
 
   // -------------------------------------------------------
   // logic functions
+
   capturePiece(piece) {
     if (piece.color === "black") {
       this.capturedPieces.black.push(piece);
@@ -190,24 +202,33 @@ class ChessBoard {
         newRow,
         newCol
       );
-      
-      
-      
+
       if (this.playerWhiteTurn) {
         const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
         console.log("Black isChecked", blackChecked);
-        const blackIsChecked = document.getElementById(`${bk1.row}${bk1.column}`);
+        const blackIsChecked = document.getElementById(
+          `${bk1.row}${bk1.column}`
+        );
+
+        console.log(Checkobj);
+
         blackIsChecked.removeAttribute("style");
-        if(blackChecked){
-          blackIsChecked.setAttribute('style', 'background-color: red');
+        if (blackChecked) {
+          blackIsChecked.setAttribute("style", "background-color: red");
+
+          Checkobj.isCheck = true;
+          Checkobj.pieceWhichChecked = this.pieceOnHand;
+          Checkobj.whereKing = [bk1.row, bk1.column];
         }
       } else {
         const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
         console.log("White isChecked", whiteChecked);
-        const whiteIsChecked = document.getElementById(`${wk1.row}${wk1.column}`);
+        const whiteIsChecked = document.getElementById(
+          `${wk1.row}${wk1.column}`
+        );
         whiteIsChecked.removeAttribute("style");
-        if(whiteChecked){
-          whiteIsChecked.setAttribute('style', 'background-color: red');
+        if (whiteChecked) {
+          whiteIsChecked.setAttribute("style", "background-color: red");
         }
       }
       if (oldRow !== newRow || oldCol !== newCol) {
@@ -404,7 +425,10 @@ class Piece {
 
   // check all possible moves if king is in one of them
   isChecked(enemyKingRow, enemyKingCol) {
-    if (this.isValidMove(enemyKingRow, enemyKingCol) && this.color != chessboard.board[enemyKingRow][enemyKingCol].color) {
+    if (
+      this.isValidMove(enemyKingRow, enemyKingCol) &&
+      this.color != chessboard.board[enemyKingRow][enemyKingCol].color
+    ) {
       // up direction
       if (enemyKingCol === this.column && enemyKingRow < this.row) {
         for (let i = this.row - 1; i > enemyKingRow; i--) {
@@ -518,26 +542,22 @@ class Piece {
     return false;
   }
 
-  isNoPiece(startRow, startColumn, endRow, endColumn){
+  isNoPiece(startRow, startColumn, endRow, endColumn) {
     // up direction
     if (endColumn === startColumn && endRow < startRow) {
       for (let i = startRow - 1; i > endRow; i--) {
         const existingPiece = chessboard.board[i][startColumn];
-        if (
-          existingPiece
-        ) {
+        if (existingPiece) {
           return false;
         }
       }
       return true;
-    }  
+    }
     // down direction
     else if (endColumn === startColumn && endRow > startRow) {
       for (let i = startRow + 1; i < endRow; i++) {
         const existingPiece = chessboard.board[i][startColumn];
-        if (
-          existingPiece
-        ) {
+        if (existingPiece) {
           return false;
         }
       }
@@ -547,9 +567,7 @@ class Piece {
     else if (endColumn < startColumn && endRow === startRow) {
       for (let i = startColumn - 1; i < endColumn; i--) {
         const existingPiece = chessboard.board[startRow][i];
-        if (
-          existingPiece
-        ) {
+        if (existingPiece) {
           return false;
         }
       }
@@ -559,9 +577,7 @@ class Piece {
     else if (endColumn > startColumn && endRow === startRow) {
       for (let i = startColumn + 1; i < endColumn; i++) {
         const existingPiece = chessboard.board[startRow][i];
-        if (
-          existingPiece
-        ) {
+        if (existingPiece) {
           return false;
         }
       }
@@ -571,10 +587,9 @@ class Piece {
     else if (endColumn > startColumn && endRow < startRow) {
       for (let i = startColumn + 1; i < endColumn; i++) {
         const increment = i - startColumn;
-        const existingPiece = chessboard.board[startRow - increment][startColumn + increment];
-        if (
-          existingPiece 
-        ) {
+        const existingPiece =
+          chessboard.board[startRow - increment][startColumn + increment];
+        if (existingPiece) {
           return false;
         }
       }
@@ -584,10 +599,9 @@ class Piece {
     else if (endColumn < startColumn && endRow < startRow) {
       for (let i = startColumn - 1; i > endColumn; i--) {
         const increment = startColumn - i;
-        const existingPiece = chessboard.board[startRow - increment][startColumn - increment];
-        if (
-          existingPiece
-        ) {
+        const existingPiece =
+          chessboard.board[startRow - increment][startColumn - increment];
+        if (existingPiece) {
           return false;
         }
       }
@@ -597,10 +611,9 @@ class Piece {
     else if (endColumn > startColumn && endRow > startRow) {
       for (let i = startColumn + 1; i < endColumn; i++) {
         const increment = i - startColumn;
-        const existingPiece = chessboard.board[startRow + increment][startColumn + increment];
-        if (
-          existingPiece
-        ) {
+        const existingPiece =
+          chessboard.board[startRow + increment][startColumn + increment];
+        if (existingPiece) {
           return false;
         }
       }
@@ -610,17 +623,15 @@ class Piece {
     else if (endColumn < startColumn && endRow > startRow) {
       for (let i = startColumn - 1; i > endColumn; i--) {
         const increment = startColumn - i;
-        const existingPiece = chessboard.board[startRow + increment][startColumn - increment];
-        if (
-          existingPiece
-        ) {
+        const existingPiece =
+          chessboard.board[startRow + increment][startColumn - increment];
+        if (existingPiece) {
           return false;
         }
       }
       return true;
     }
   }
-
 }
 
 class Pawn extends Piece {
@@ -629,7 +640,7 @@ class Pawn extends Piece {
     this.firstMove = true;
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       if (this.color == "black") {
         if (this.firstMove === true) {
           if (chessboard.board[newRow][newCol]) return false;
@@ -638,12 +649,12 @@ class Pawn extends Piece {
             return true;
           }
         }
-  
+
         if (newRow === this.row + 1 && newCol === this.column) {
           if (chessboard.board[newRow][newCol]) return false;
           return true;
         }
-  
+
         if (
           newCol === this.column + 1 ||
           (newCol === this.column - 1 && newRow === this.row + 1)
@@ -664,7 +675,7 @@ class Pawn extends Piece {
           if (chessboard.board[newRow][newCol]) return false;
           return true;
         }
-  
+
         if (
           newCol === this.column + 1 ||
           (newCol === this.column - 1 && newRow === this.row - 1)
@@ -683,7 +694,7 @@ class King extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       if (Math.abs(newRow - this.row) === 1) {
         if (Math.abs(newCol - this.column) <= 1) {
           return true;
@@ -705,9 +716,9 @@ class Bishop extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
-      return true;
+        return true;
     }
     return false;
   }
@@ -718,7 +729,7 @@ class Rook extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       if (Math.abs(newRow < this.row || newRow > this.row)) {
         if (Math.abs(newCol === this.column)) {
           return true;
@@ -757,22 +768,23 @@ class Knight extends Piece {
     let isCheckedResult = false;
     if (this.isValidMove(enemyKingRow, enemyKingCol)) {
       const possibleMoves = [
-        {row: 2, column: 1},
-        {row: 2, column: -1},
-        {row: -2, column: 1},
-        {row: -2, column: -1},
-        {row: 1, column: 2},
-        {row: 1, column: -2},
-        {row: -1, column: 2},
-        {row: -1, column: -2},
-      ]
+        { row: 2, column: 1 },
+        { row: 2, column: -1 },
+        { row: -2, column: 1 },
+        { row: -2, column: -1 },
+        { row: 1, column: 2 },
+        { row: 1, column: -2 },
+        { row: -1, column: 2 },
+        { row: -1, column: -2 },
+      ];
 
-      possibleMoves.forEach( (coordinate, index) => {
-        const targetRow = this.row+coordinate.row
-        const targetColumn = this.column+coordinate.column
-        const hasKing = chessboard.board[targetRow] && 
-          chessboard.board[targetRow][targetColumn] && 
-          chessboard.board[targetRow][targetColumn].type.includes('k')
+      possibleMoves.forEach((coordinate, index) => {
+        const targetRow = this.row + coordinate.row;
+        const targetColumn = this.column + coordinate.column;
+        const hasKing =
+          chessboard.board[targetRow] &&
+          chessboard.board[targetRow][targetColumn] &&
+          chessboard.board[targetRow][targetColumn].type.includes("k");
         if (hasKing) {
           isCheckedResult = true;
         }
@@ -787,10 +799,10 @@ class Queen extends Piece {
     super(id, row, column, color, type);
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       //move like bishop
       if (Math.abs(this.column - newCol) === Math.abs(this.row - newRow))
-      return true;
+        return true;
       //move like rook
       if (newRow != this.row && newCol === this.column) return true;
       if (newRow === this.row && newCol != this.column) return true;
@@ -798,8 +810,6 @@ class Queen extends Piece {
     }
     return false;
   }
-  
-
 }
 
 // functions

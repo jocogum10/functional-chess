@@ -190,16 +190,26 @@ class ChessBoard {
         newRow,
         newCol
       );
-
-      // if (this.playerWhiteTurn) {
-      //   const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
-      //   console.log("blackChecked", blackChecked);
-      // } else {
-      //   const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
-      //   console.log("whiteChecked", whiteChecked);
-      // }
-      console.log('Black isChecked', this.pieceOnHand.isChecked(bk1.row, bk1.column))
-      console.log('White isChecked', this.pieceOnHand.isChecked(wk1.row, wk1.column))
+      
+      
+      
+      if (this.playerWhiteTurn) {
+        const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
+        console.log("Black isChecked", blackChecked);
+        const blackIsChecked = document.getElementById(`${bk1.row}${bk1.column}`);
+        blackIsChecked.removeAttribute("style");
+        if(blackChecked){
+          blackIsChecked.setAttribute('style', 'background-color: red');
+        }
+      } else {
+        const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
+        console.log("White isChecked", whiteChecked);
+        const whiteIsChecked = document.getElementById(`${wk1.row}${wk1.column}`);
+        whiteIsChecked.removeAttribute("style");
+        if(whiteChecked){
+          whiteIsChecked.setAttribute('style', 'background-color: red');
+        }
+      }
       if (oldRow !== newRow || oldCol !== newCol) {
         this.playerWhiteTurn = !this.playerWhiteTurn;
       }
@@ -391,13 +401,10 @@ class Piece {
   isValidMove() {
     return false;
   }
-  // isChecked() {
-  //   return false;
-  // }
 
   // check all possible moves if king is in one of them
   isChecked(enemyKingRow, enemyKingCol) {
-    if (this.isValidMove(enemyKingRow, enemyKingCol)) {
+    if (this.isValidMove(enemyKingRow, enemyKingCol) && this.color != chessboard.board[enemyKingRow][enemyKingCol].color) {
       // up direction
       if (enemyKingCol === this.column && enemyKingRow < this.row) {
         for (let i = this.row - 1; i > enemyKingRow; i--) {
@@ -566,8 +573,7 @@ class Piece {
         const increment = i - startColumn;
         const existingPiece = chessboard.board[startRow - increment][startColumn + increment];
         if (
-          existingPiece &&
-          (existingPiece.type != "bk" || existingPiece.type != "wk")
+          existingPiece 
         ) {
           return false;
         }
@@ -580,8 +586,7 @@ class Piece {
         const increment = startColumn - i;
         const existingPiece = chessboard.board[startRow - increment][startColumn - increment];
         if (
-          existingPiece &&
-          (existingPiece.type != "bk" || existingPiece.type != "wk")
+          existingPiece
         ) {
           return false;
         }
@@ -594,8 +599,7 @@ class Piece {
         const increment = i - startColumn;
         const existingPiece = chessboard.board[startRow + increment][startColumn + increment];
         if (
-          existingPiece &&
-          (existingPiece.type != "bk" || existingPiece.type != "wk")
+          existingPiece
         ) {
           return false;
         }
@@ -608,8 +612,7 @@ class Piece {
         const increment = startColumn - i;
         const existingPiece = chessboard.board[startRow + increment][startColumn - increment];
         if (
-          existingPiece &&
-          (existingPiece.type != "bk" || existingPiece.type != "wk")
+          existingPiece
         ) {
           return false;
         }
@@ -749,6 +752,33 @@ class Knight extends Piece {
       return false;
     }
     return false;
+  }
+  isChecked(enemyKingRow, enemyKingCol) {
+    let isCheckedResult = false;
+    if (this.isValidMove(enemyKingRow, enemyKingCol)) {
+      const possibleMoves = [
+        {row: 2, column: 1},
+        {row: 2, column: -1},
+        {row: -2, column: 1},
+        {row: -2, column: -1},
+        {row: 1, column: 2},
+        {row: 1, column: -2},
+        {row: -1, column: 2},
+        {row: -1, column: -2},
+      ]
+
+      possibleMoves.forEach( (coordinate, index) => {
+        const targetRow = this.row+coordinate.row
+        const targetColumn = this.column+coordinate.column
+        const hasKing = chessboard.board[targetRow] && 
+          chessboard.board[targetRow][targetColumn] && 
+          chessboard.board[targetRow][targetColumn].type.includes('k')
+        if (hasKing) {
+          isCheckedResult = true;
+        }
+      });
+    }
+    return isCheckedResult;
   }
 }
 

@@ -1,4 +1,5 @@
 import checkMate from "./checkMate.js";
+import makeModal from "./winModal.js";
 // variables
 let bb1;
 let bb2;
@@ -36,12 +37,16 @@ let wh2;
 
 let chessboard;
 
-let Checkobj = {
+let checkObjBlack = {
   isCheck: false,
   pieceWhichChecked: {},
   whereKing: [],
 };
-
+let checkObjWhite = {
+  isCheck: false,
+  pieceWhichChecked: {},
+  whereKing: [],
+};
 // selectors
 // const app = document.getElementById("app");
 
@@ -116,14 +121,24 @@ class ChessBoard {
     wh2 = new Knight("wh2", 7, 6, "white", "wh");
 
     this.board = [
-      [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
-      [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
+      // [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
+      // [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
+      // ["", "", "", "", "", "", "", ""], //6
+      // ["", "", "", "", "", "", "", ""], //5
+      // ["", "", "", "", "", "", "", ""], //4
+      // ["", "", "", "", "", "", "", ""], //3
+      // [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
+      // [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
+      // //    a   b  c   d    e  f    g   h
+
+      ["", "", "", bk1, bq, "", "", ""], //8
+      ["", "", "", "", "", "", "", ""], //7
       ["", "", "", "", "", "", "", ""], //6
       ["", "", "", "", "", "", "", ""], //5
       ["", "", "", "", "", "", "", ""], //4
       ["", "", "", "", "", "", "", ""], //3
-      [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
-      [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
+      ["", "", "", "", "", "", "", ""], //2
+      ["", "", "", wk1, wq, "", "", ""], //1
       //    a   b  c   d    e  f    g   h
     ];
     this.board.forEach((rowArray, indexRow) => {
@@ -133,17 +148,27 @@ class ChessBoard {
           this.clickedCell(event.target.id);
 
           let possibleMovesBlack = 1;
-          if (Checkobj.isCheck === true) {
-            possibleMovesBlack = checkMate(this.board, Checkobj);
+          let possibleMovesWhite = 1;
+          if (checkObjBlack.isCheck === true) {
+            possibleMovesBlack = checkMate(this.board, checkObjBlack);
           }
-          if (possibleMovesBlack > 0) {
+          if (checkObjWhite.isCheck === true) {
+            possibleMovesWhite = checkMate(this.board, checkObjWhite);
+          }
+          if (possibleMovesBlack > 0 && possibleMovesWhite > 0) {
             this.playerWhiteTurn
               ? (document.getElementById("player-turn").textContent =
                   "Player Turn: White")
               : (document.getElementById("player-turn").textContent =
                   "Player Turn: Black");
-          } else {
-            document.getElementById("player-turn").textContent = "Winner White";
+          } else if (possibleMovesBlack === 0) {
+            console.clear();
+            console.log(possibleMovesBlack);
+            makeModal("White");
+          } else if (possibleMovesWhite === 0) {
+            console.clear();
+            console.log(possibleMovesBlack);
+            makeModal("Black");
           }
         });
       });
@@ -214,16 +239,13 @@ class ChessBoard {
           `${bk1.row}${bk1.column}`
         );
 
-        console.log(Checkobj);
-
         blackIsChecked.removeAttribute("style");
         if (blackChecked) {
           blackIsChecked.setAttribute("style", "background-color: red");
 
-          Checkobj.isCheck = true;
-          Checkobj.pieceWhichChecked = this.pieceOnHand;
-
-          Checkobj.whereKing = [bk1.row, bk1.column];
+          checkObjBlack.isCheck = true;
+          checkObjBlack.pieceWhichChecked = this.pieceOnHand;
+          checkObjBlack.whereKing = [bk1.row, bk1.column];
         }
       } else {
         const whiteChecked = this.pieceOnHand.isChecked(wk1.row, wk1.column);
@@ -233,6 +255,10 @@ class ChessBoard {
         );
         whiteIsChecked.removeAttribute("style");
         if (whiteChecked) {
+          checkObjWhite.isCheck = true;
+          checkObjWhite.pieceWhichChecked = this.pieceOnHand;
+          checkObjWhite.whereKing = [bk1.row, bk1.column];
+
           whiteIsChecked.setAttribute("style", "background-color: red");
         }
       }

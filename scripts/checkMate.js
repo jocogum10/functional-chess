@@ -4,31 +4,35 @@ export default function checkMate(gameboard, Checkobj) {
   const kingRow = Checkobj.whereKing[0];
   const kingCol = Checkobj.whereKing[1];
 
-  //   if (kingRow !== 0 && kingCol !== 0) {
-  //     if (
-  //       gameboard[kingRow + 1][kingCol] === "" ||
-  //       gameboard[kingRow - 1][kingCol] === "" ||
-  //       gameboard[kingRow][kingCol + 1] === "" ||
-  //       gameboard[kingRow][kingCol - 1] === "" ||
-  //       gameboard[kingRow + 1][kingCol + 1] === "" ||
-  //       gameboard[kingRow - 1][kingCol - 1] === "" ||
-  //       gameboard[kingRow - 1][kingCol + 1] === "" ||
-  //       gameboard[kingRow + 1][kingCol - 1] === ""
-  //     ) {
-  //       possibleMoves++;
-  //       canBeMoved.push("king");
-  //     }
-  //   } else {
-  //     if (
-  //       gameboard[kingRow + 1][kingCol] === "" ||
-  //       gameboard[kingRow][kingCol + 1] === "" ||
-  //       gameboard[kingRow + 1][kingCol + 1] === ""
-  //     ) {
-  //       possibleMoves++;
-  //       canBeMoved.push("king");
-  //     }
-  //   }
-  //   console.log("kingrow", kingRow);
+  if (Checkobj.pieceWhichChecked.type.charAt(1) !== "q") {
+    console.log(Checkobj.pieceWhichChecked.type);
+    if (kingRow !== 0 && kingCol !== 0) {
+      if (
+        gameboard[kingRow + 1][kingCol] === "" ||
+        gameboard[kingRow - 1][kingCol] === "" ||
+        gameboard[kingRow][kingCol + 1] === "" ||
+        gameboard[kingRow][kingCol - 1] === "" ||
+        gameboard[kingRow + 1][kingCol + 1] === "" ||
+        gameboard[kingRow - 1][kingCol - 1] === "" ||
+        gameboard[kingRow - 1][kingCol + 1] === "" ||
+        gameboard[kingRow + 1][kingCol - 1] === ""
+      ) {
+        possibleMoves++;
+        canBeMoved.push("king");
+      }
+    } else {
+      if (
+        gameboard[kingRow + 1][kingCol] === "" ||
+        gameboard[kingRow][kingCol + 1] === "" ||
+        gameboard[kingRow + 1][kingCol + 1] === ""
+      ) {
+        possibleMoves++;
+        canBeMoved.push("king");
+      }
+    }
+  }
+
+  console.log("kingrow", kingRow);
 
   if (Checkobj.pieceWhichChecked.type.charAt(0) === "w") {
     if (kingRow !== 0) {
@@ -42,13 +46,13 @@ export default function checkMate(gameboard, Checkobj) {
       });
     }
     gameboard[kingRow].forEach((cell) => {
-      if (cell.type === "wq" || cell.type === "wr" || cell.type === "wp") {
+      if (cell.type === "bq" || cell.type === "br" || cell.type === "bp") {
         if (Math.abs(cell.column - kingCol) === 1) {
           possibleMoves++;
           canBeMoved.push(cell);
         }
       }
-      if (cell.type === "wh") {
+      if (cell.type === "bh") {
         if (Math.abs(cell.column - kingCol) === 3) {
           possibleMoves++;
           canBeMoved.push(cell);
@@ -57,8 +61,8 @@ export default function checkMate(gameboard, Checkobj) {
     });
 
     gameboard[kingRow + 1].forEach((cell) => {
-      if (cell.type === "wr" || cell.type === "wq") possibleMoves++;
-      if (cell.type === "wp") {
+      if (cell.type === "br" || cell.type === "bq") possibleMoves++;
+      if (cell.type === "bp") {
         if (
           Math.abs(kingCol - Checkobj.pieceWhichChecked.column) < cell.column &&
           Checkobj.pieceWhichChecked.column > cell.column

@@ -1,5 +1,3 @@
-import renderApp from "./gamelogic.js";
-
 const body = document.querySelector("body");
 
 const makeOverlay = () => {

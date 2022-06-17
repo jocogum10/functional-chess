@@ -4,21 +4,33 @@ export default function checkMate(gameboard, Checkobj) {
   const kingRow = Checkobj.whereKing[0];
   const kingCol = Checkobj.whereKing[1];
 
-  if (
-    gameboard[kingRow + 1][kingCol] === "" ||
-    gameboard[kingRow - 1][kingCol] === "" ||
-    gameboard[kingRow][kingCol + 1] === "" ||
-    gameboard[kingRow][kingCol - 1] === "" ||
-    gameboard[kingRow + 1][kingCol + 1] === "" ||
-    gameboard[kingRow - 1][kingCol - 1] === "" ||
-    gameboard[kingRow - 1][kingCol + 1] === "" ||
-    gameboard[kingRow + 1][kingCol - 1] === ""
-  ) {
-    possibleMoves++;
-    canBeMoved.push("king");
+  if (kingRow !== 0 && kingCol !== 0) {
+    if (
+      gameboard[kingRow + 1][kingCol] === "" ||
+      gameboard[kingRow - 1][kingCol] === "" ||
+      gameboard[kingRow][kingCol + 1] === "" ||
+      gameboard[kingRow][kingCol - 1] === "" ||
+      gameboard[kingRow + 1][kingCol + 1] === "" ||
+      gameboard[kingRow - 1][kingCol - 1] === "" ||
+      gameboard[kingRow - 1][kingCol + 1] === "" ||
+      gameboard[kingRow + 1][kingCol - 1] === ""
+    ) {
+      possibleMoves++;
+      canBeMoved.push("king");
+    }
+  } else {
+    if (
+      gameboard[kingRow + 1][kingCol] === "" ||
+      gameboard[kingRow][kingCol + 1] === "" ||
+      gameboard[kingRow + 1][kingCol + 1] === ""
+    ) {
+      possibleMoves++;
+      canBeMoved.push("king");
+    }
   }
+  console.log("kingrow", kingRow);
 
-  if (!kingRow === 0) {
+  if (kingRow !== 0) {
     gameboard[kingRow - 1].forEach((cell) => {
       if (cell.type === "bb") {
         if (Math.abs(kingCol - cell.column) === 3) {

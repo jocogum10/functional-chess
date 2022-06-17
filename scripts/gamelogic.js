@@ -132,15 +132,19 @@ class ChessBoard {
         btnElement.addEventListener("click", (event) => {
           this.clickedCell(event.target.id);
 
+          let possibleMovesBlack = 1;
           if (Checkobj.isCheck === true) {
-            checkMate(this.board, Checkobj);
+            possibleMovesBlack = checkMate(this.board, Checkobj);
           }
-
-          this.playerWhiteTurn
-            ? (document.getElementById("player-turn").textContent =
-                "Player Turn: White")
-            : (document.getElementById("player-turn").textContent =
-                "Player Turn: Black");
+          if (possibleMovesBlack > 0) {
+            this.playerWhiteTurn
+              ? (document.getElementById("player-turn").textContent =
+                  "Player Turn: White")
+              : (document.getElementById("player-turn").textContent =
+                  "Player Turn: Black");
+          } else {
+            document.getElementById("player-turn").textContent = "Winner White";
+          }
         });
       });
     });
@@ -218,6 +222,7 @@ class ChessBoard {
 
           Checkobj.isCheck = true;
           Checkobj.pieceWhichChecked = this.pieceOnHand;
+
           Checkobj.whereKing = [bk1.row, bk1.column];
         }
       } else {

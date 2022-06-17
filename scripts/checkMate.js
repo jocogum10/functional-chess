@@ -4,15 +4,39 @@ export default function checkMate(gameboard, Checkobj) {
   const kingRow = Checkobj.whereKing[0];
   const kingCol = Checkobj.whereKing[1];
 
+  if (
+    gameboard[kingRow + 1][kingCol] === "" ||
+    gameboard[kingRow - 1][kingCol] === "" ||
+    gameboard[kingRow][kingCol + 1] === "" ||
+    gameboard[kingRow][kingCol - 1] === "" ||
+    gameboard[kingRow + 1][kingCol + 1] === "" ||
+    gameboard[kingRow - 1][kingCol - 1] === "" ||
+    gameboard[kingRow - 1][kingCol + 1] === "" ||
+    gameboard[kingRow + 1][kingCol - 1] === ""
+  ) {
+    possibleMoves++;
+    canBeMoved.push("king");
+  }
+
+  if (!kingRow === 0) {
+    gameboard[kingRow - 1].forEach((cell) => {
+      if (cell.type === "bb") {
+        if (Math.abs(kingCol - cell.column) === 3) {
+          possibleMoves++;
+          canBeMoved.push(cell);
+        }
+      }
+    });
+  }
   gameboard[kingRow].forEach((cell) => {
     if (cell.type === "bq" || cell.type === "br" || cell.type === "bp") {
-      if (Math.abs(cell.column - kingCol === 1)) {
+      if (Math.abs(cell.column - kingCol) === 1) {
         possibleMoves++;
         canBeMoved.push(cell);
       }
     }
     if (cell.type === "bh") {
-      if (Math.abs(cell.column - kingCol === 3)) {
+      if (Math.abs(cell.column - kingCol) === 3) {
         possibleMoves++;
         canBeMoved.push(cell);
       }

@@ -121,24 +121,24 @@ class ChessBoard {
     wh2 = new Knight("wh2", 7, 6, "white", "wh");
 
     this.board = [
-      // [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
-      // [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
-      // ["", "", "", "", "", "", "", ""], //6
-      // ["", "", "", "", "", "", "", ""], //5
-      // ["", "", "", "", "", "", "", ""], //4
-      // ["", "", "", "", "", "", "", ""], //3
-      // [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
-      // [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
-      // //    a   b  c   d    e  f    g   h
-
-      ["", "", "", bk1, bq, "", "", ""], //8
-      ["", "", "", "", "", "", "", ""], //7
+      [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
+      [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
       ["", "", "", "", "", "", "", ""], //6
       ["", "", "", "", "", "", "", ""], //5
       ["", "", "", "", "", "", "", ""], //4
       ["", "", "", "", "", "", "", ""], //3
-      ["", "", "", "", "", "", "", ""], //2
-      ["", "", "", wk1, wq, "", "", ""], //1
+      [wp0, wp1, wp2, wp3, wp4, wp5, wp6, wp7], //2
+      [wr1, wh1, wb2, wk1, wq, wb1, wh2, wr2], //1
+      //    a   b  c   d    e  f    g   h
+
+      // ["", "", "", bk1, bq, "", "", ""], //8
+      // ["", "", "", "", "", "", "", ""], //7
+      // ["", "", "", "", "", "", "", ""], //6
+      // ["", "", "", "", "", "", "", ""], //5
+      // ["", "", "", "", "", "", "", ""], //4
+      // ["", "", "", "", "", "", "", ""], //3
+      // ["", "", "", "", "", "", "", ""], //2
+      // ["", "", "", wk1, wq, "", "", ""], //1
       //    a   b  c   d    e  f    g   h
     ];
     this.board.forEach((rowArray, indexRow) => {
@@ -200,6 +200,7 @@ class ChessBoard {
     const newCol = parseInt(colIndex);
     const whitePlayerMove = this.pieceOnHand.color === "white" ? true : false;
 
+    // check if the move is valid
     if (
       this.pieceOnHand.isValidMove(newRow, newCol) &&
       this.playerWhiteTurn === whitePlayerMove &&
@@ -213,12 +214,26 @@ class ChessBoard {
         this.capturePiece(this.board[newRow][newCol]);
       } else {
         this.board[oldRow][oldCol] = this.pieceOnHand;
-        console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+        console.log("invalid capture - returning", this.pieceOnHand.id, "to", oldRow, oldCol);
       }
 
+      // place the current piece to the target cell
       this.board[oldRow][oldCol] = "";
       this.pieceOnHand.row = newRow;
       this.pieceOnHand.column = newCol;
+
+      // check if current piece will be promoted
+      const currentPieceIsPromoted = this.pieceOnHand.isPromoted();
+      console.log(currentPieceIsPromoted);
+      if(currentPieceIsPromoted){
+        const id = this.pieceOnHand.id
+        const row = this.pieceOnHand.row
+        const column = this.pieceOnHand.column
+        const color = this.pieceOnHand.color
+        const newType = color === 'white' ? 'wq': 'bq'
+        this.pieceOnHand = new Queen(id, row, column, color, newType)
+      }
+
       this.board[rowIndex][colIndex] = this.pieceOnHand;
 
       console.log(
@@ -231,7 +246,8 @@ class ChessBoard {
         newRow,
         newCol
       );
-
+      
+      // check if current move check opponent piece
       if (this.playerWhiteTurn) {
         const blackChecked = this.pieceOnHand.isChecked(bk1.row, bk1.column);
         console.log("Black isChecked", blackChecked);
@@ -262,14 +278,21 @@ class ChessBoard {
           whiteIsChecked.setAttribute("style", "background-color: red");
         }
       }
+      // check if the current player made a valid move then switch player
       if (oldRow !== newRow || oldCol !== newCol) {
         this.playerWhiteTurn = !this.playerWhiteTurn;
       }
+
+      // set the first move to false when pieceonhand is pawn
+      if(this.pieceOnHand.type.includes('p')){
+        this.pieceOnHand.firstMove = false;
+      }
+
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
-      console.log("returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+      console.log("invalid move - returning", this.pieceOnHand.id, "to", oldRow, oldCol);
     }
-
+    
     this.pieceOnHand = "";
     console.log("player turn:", this.playerWhiteTurn ? "white" : "black");
     this.renderBoard();
@@ -453,6 +476,9 @@ class Piece {
   isValidMove() {
     return false;
   }
+  isPromoted (newRow, newCol) {
+    return false;
+  }
 
   // check all possible moves if king is in one of them
   isChecked(enemyKingRow, enemyKingCol) {
@@ -596,7 +622,7 @@ class Piece {
     }
     //left direction
     else if (endColumn < startColumn && endRow === startRow) {
-      for (let i = startColumn - 1; i < endColumn; i--) {
+      for (let i = startColumn - 1; i > endColumn; i--) {
         const existingPiece = chessboard.board[startRow][i];
         if (existingPiece) {
           return false;
@@ -671,12 +697,12 @@ class Pawn extends Piece {
     this.firstMove = true;
   }
   isValidMove(newRow, newCol) {
-    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
-      if (this.color == "black") {
+    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+      if (this.color === "black") {
         if (this.firstMove === true) {
           if (chessboard.board[newRow][newCol]) return false;
           if (newRow <= this.row + 2 && newCol === this.column) {
-            this.firstMove = false;
+            // this.firstMove = false;
             return true;
           }
         }
@@ -698,7 +724,7 @@ class Pawn extends Piece {
         if (this.firstMove === true) {
           if (chessboard.board[newRow][newCol]) return false;
           if (newRow <= this.row + 2 && newCol === this.column) {
-            this.firstMove = false;
+            // this.firstMove = false;
             return true;
           }
         }
@@ -717,6 +743,46 @@ class Pawn extends Piece {
         return false;
       }
     }
+  }
+
+  isPromoted () {
+    const whiteTargetCoordinates = [
+      {row: 0, column: 0},
+      {row: 0, column: 1},
+      {row: 0, column: 2},
+      {row: 0, column: 3},
+      {row: 0, column: 4},
+      {row: 0, column: 5},
+      {row: 0, column: 6},
+      {row: 0, column: 7},
+    ]
+    const blackTargetCoordinates = [
+      {row: 7, column: 0},
+      {row: 7, column: 1},
+      {row: 7, column: 2},
+      {row: 7, column: 3},
+      {row: 7, column: 4},
+      {row: 7, column: 5},
+      {row: 7, column: 6},
+      {row: 7, column: 7},
+    ]
+    let isPromotedResult = false
+    if(this.color === 'white'){
+      for(let i = 0; i < whiteTargetCoordinates.length; i++){
+        if(this.row === whiteTargetCoordinates[i].row && this.column === whiteTargetCoordinates[i].column){
+          isPromotedResult = true;
+          break;
+        }
+      }
+    } else {
+      for(let i = 0; i < blackTargetCoordinates.length; i++){
+        if(this.row === blackTargetCoordinates[i].row && this.column === blackTargetCoordinates[i].column){
+          isPromotedResult = true;
+          break;
+        }
+      }
+    }
+    return isPromotedResult;
   }
 }
 

@@ -120,7 +120,6 @@ class ChessBoard {
     wh1 = new Knight("wh1", 7, 1, "white", "wh");
     wh2 = new Knight("wh2", 7, 6, "white", "wh");
 
-
     this.board = [
       [br1, bh1, bb1, bk1, bq, bb2, bh2, br2], //8
       [bp0, bp1, bp2, bp3, bp4, bp5, bp6, bp7], //7
@@ -141,7 +140,6 @@ class ChessBoard {
       // ["", "", "", "", "", "", "", ""], //2
       // ["", "", "", wk1, wq, "", "", ""], //1
       //    a   b  c   d    e  f    g   h
-
     ];
     this.board.forEach((rowArray, indexRow) => {
       rowArray.forEach((columnCell, indexColumn) => {
@@ -183,14 +181,16 @@ class ChessBoard {
   playerIsChecked(playerColor) {
     let playerChecked = false;
 
-    for(let i = 0; i < 7; i++){
-      for(let j = 0; j < 7; j++){
-
-        const currentCell = this.board[i][j]
-        const isEnemyPiece = currentCell && currentCell.color != playerColor
+    for (let i = 0; i < 7; i++) {
+      for (let j = 0; j < 7; j++) {
+        const currentCell = this.board[i][j];
+        const isEnemyPiece = currentCell && currentCell.color != playerColor;
         if (isEnemyPiece) {
-          const kingPiece = playerColor === 'white' ? wk1 : bk1
-          const pieceChecks = currentCell.isChecked(kingPiece.row, kingPiece.column)
+          const kingPiece = playerColor === "white" ? wk1 : bk1;
+          const pieceChecks = currentCell.isChecked(
+            kingPiece.row,
+            kingPiece.column
+          );
           if (pieceChecks) {
             console.log('currentcell', currentCell, 'pieceChecks', pieceChecks, 'kingPiece', kingPiece, 'playerColor', playerColor)
             playerChecked = true;
@@ -241,7 +241,13 @@ class ChessBoard {
         justCaptured = true;
       } else {
         this.board[oldRow][oldCol] = this.pieceOnHand;
-        console.log("invalid capture - returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+        console.log(
+          "invalid capture - returning",
+          this.pieceOnHand.id,
+          "to",
+          oldRow,
+          oldCol
+        );
         justCaptured = false;
       }
 
@@ -253,14 +259,14 @@ class ChessBoard {
       // check if current piece will be promoted
       const currentPieceIsPromoted = this.pieceOnHand.isPromoted();
       console.log(currentPieceIsPromoted);
-      if(currentPieceIsPromoted){
-        console.log('promoting pawn')
-        const id = this.pieceOnHand.id
-        const row = this.pieceOnHand.row
-        const column = this.pieceOnHand.column
-        const color = this.pieceOnHand.color
-        const newType = color === 'white' ? 'wq': 'bq'
-        this.pieceOnHand = new Queen(id, row, column, color, newType)
+      if (currentPieceIsPromoted) {
+        console.log("promoting pawn");
+        const id = this.pieceOnHand.id;
+        const row = this.pieceOnHand.row;
+        const column = this.pieceOnHand.column;
+        const color = this.pieceOnHand.color;
+        const newType = color === "white" ? "wq" : "bq";
+        this.pieceOnHand = new Queen(id, row, column, color, newType);
       }
 
       // update the board
@@ -268,36 +274,36 @@ class ChessBoard {
 
       // undo moves when self is checked
       let undoMoves = false;
-      if(this.playerIsChecked(this.pieceOnHand.color)){
-        console.log('invalid move since self is checked')
+      if (this.playerIsChecked(this.pieceOnHand.color)) {
+        console.log("invalid move since self is checked");
         // undo capture piece
-        if (
-          justCaptured
-        ) {
-          console.log('undoing capture')
-          const opponentPieceColor = this.pieceOnHand.color === 'white' ? 'black' : 'white'
-          const opponentPieceToFree = this.capturedPieces[opponentPieceColor].pop()
-          this.board[opponentPieceToFree.row][opponentPieceToFree.column] = opponentPieceToFree;
+        if (justCaptured) {
+          console.log("undoing capture");
+          const opponentPieceColor =
+            this.pieceOnHand.color === "white" ? "black" : "white";
+          const opponentPieceToFree =
+            this.capturedPieces[opponentPieceColor].pop();
+          this.board[opponentPieceToFree.row][opponentPieceToFree.column] =
+            opponentPieceToFree;
           this.renderCaptured();
         }
-        
 
         // undo promote
         if (currentPieceIsPromoted) {
-          console.log('undoing promote')
-          const id = this.pieceOnHand.id
-          const row = this.pieceOnHand.row
-          const column = this.pieceOnHand.column
-          const color = this.pieceOnHand.color
-          const oldType = color === 'white' ? 'wp': 'bp'
-          this.pieceOnHand = new Pawn(id, row, column, color, oldType)
+          console.log("undoing promote");
+          const id = this.pieceOnHand.id;
+          const row = this.pieceOnHand.row;
+          const column = this.pieceOnHand.column;
+          const color = this.pieceOnHand.color;
+          const oldType = color === "white" ? "wp" : "bp";
+          this.pieceOnHand = new Pawn(id, row, column, color, oldType);
         }
 
         // undo placing of old cell to new cell
-        if(!justCaptured){
+        if (!justCaptured) {
           this.board[newRow][newCol] = "";
         }
-        
+
         this.pieceOnHand.row = oldRow;
         this.pieceOnHand.column = oldCol;
 
@@ -316,10 +322,10 @@ class ChessBoard {
         newRow,
         newCol
       );
-      
+
       // check if current move check opponent piece
-      const blackChecked = this.playerIsChecked('black');
-      const whiteChecked = this.playerIsChecked('white');
+      const blackChecked = this.playerIsChecked("black");
+      const whiteChecked = this.playerIsChecked("white");
       console.log("Black isChecked", blackChecked);
       console.log("White isChecked", whiteChecked);
       const blackCheckedElement = document.getElementById(
@@ -354,22 +360,26 @@ class ChessBoard {
         }
       }
 
-
       // check if the current player made a valid move then switch player
       if ((oldRow !== newRow || oldCol !== newCol) && !undoMoves) {
         this.playerWhiteTurn = !this.playerWhiteTurn;
       }
 
       // set the first move to false when pieceonhand is pawn
-      if(this.pieceOnHand.type.includes('p')){
+      if (this.pieceOnHand.type.includes("p")) {
         this.pieceOnHand.firstMove = false;
       }
-
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
-      console.log("invalid move - returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+      console.log(
+        "invalid move - returning",
+        this.pieceOnHand.id,
+        "to",
+        oldRow,
+        oldCol
+      );
     }
-    
+
     this.pieceOnHand = "";
     console.log("player turn:", this.playerWhiteTurn ? "white" : "black");
     this.renderBoard();
@@ -553,7 +563,7 @@ class Piece {
   isValidMove() {
     return false;
   }
-  isPromoted (newRow, newCol) {
+  isPromoted(newRow, newCol) {
     return false;
   }
 
@@ -775,7 +785,7 @@ class Pawn extends Piece {
     this.firstMove = true;
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       if (this.color === "black") {
         if (this.firstMove === true) {
           if (chessboard.board[newRow][newCol]) return false;
@@ -824,38 +834,44 @@ class Pawn extends Piece {
     }
   }
 
-  isPromoted () {
+  isPromoted() {
     const whiteTargetCoordinates = [
-      {row: 0, column: 0},
-      {row: 0, column: 1},
-      {row: 0, column: 2},
-      {row: 0, column: 3},
-      {row: 0, column: 4},
-      {row: 0, column: 5},
-      {row: 0, column: 6},
-      {row: 0, column: 7},
-    ]
+      { row: 0, column: 0 },
+      { row: 0, column: 1 },
+      { row: 0, column: 2 },
+      { row: 0, column: 3 },
+      { row: 0, column: 4 },
+      { row: 0, column: 5 },
+      { row: 0, column: 6 },
+      { row: 0, column: 7 },
+    ];
     const blackTargetCoordinates = [
-      {row: 7, column: 0},
-      {row: 7, column: 1},
-      {row: 7, column: 2},
-      {row: 7, column: 3},
-      {row: 7, column: 4},
-      {row: 7, column: 5},
-      {row: 7, column: 6},
-      {row: 7, column: 7},
-    ]
-    let isPromotedResult = false
-    if(this.color === 'white'){
-      for(let i = 0; i < whiteTargetCoordinates.length; i++){
-        if(this.row === whiteTargetCoordinates[i].row && this.column === whiteTargetCoordinates[i].column){
+      { row: 7, column: 0 },
+      { row: 7, column: 1 },
+      { row: 7, column: 2 },
+      { row: 7, column: 3 },
+      { row: 7, column: 4 },
+      { row: 7, column: 5 },
+      { row: 7, column: 6 },
+      { row: 7, column: 7 },
+    ];
+    let isPromotedResult = false;
+    if (this.color === "white") {
+      for (let i = 0; i < whiteTargetCoordinates.length; i++) {
+        if (
+          this.row === whiteTargetCoordinates[i].row &&
+          this.column === whiteTargetCoordinates[i].column
+        ) {
           isPromotedResult = true;
           break;
         }
       }
     } else {
-      for(let i = 0; i < blackTargetCoordinates.length; i++){
-        if(this.row === blackTargetCoordinates[i].row && this.column === blackTargetCoordinates[i].column){
+      for (let i = 0; i < blackTargetCoordinates.length; i++) {
+        if (
+          this.row === blackTargetCoordinates[i].row &&
+          this.column === blackTargetCoordinates[i].column
+        ) {
           isPromotedResult = true;
           break;
         }

@@ -192,6 +192,7 @@ class ChessBoard {
           const kingPiece = playerColor === 'white' ? wk1 : bk1
           const pieceChecks = currentCell.isChecked(kingPiece.row, kingPiece.column)
           if (pieceChecks) {
+            console.log('currentcell', currentCell, 'pieceChecks', pieceChecks, 'kingPiece', kingPiece, 'playerColor', playerColor)
             playerChecked = true;
             break;
           }
@@ -662,6 +663,7 @@ class Piece {
           const increment = this.column - i;
           const pieceChecked =
             chessboard.board[this.row + increment][this.column - increment];
+          console.log('lower left', pieceChecked)
           if (
             pieceChecked &&
             (pieceChecked.type != "bk" || pieceChecked.type != "wk")
@@ -789,8 +791,8 @@ class Pawn extends Piece {
         }
 
         if (
-          newCol === this.column + 1 ||
-          (newCol === this.column - 1 && newRow === this.row + 1)
+          // ((newCol === this.column + 1 || newCol === this.column - 1) && newRow === this.row - 1)||
+          ((newCol === this.column + 1 || newCol === this.column - 1) && newRow === this.row + 1)
         ) {
           if (!chessboard.board[newRow][newCol]) return false;
           else return true;
@@ -810,8 +812,9 @@ class Pawn extends Piece {
         }
 
         if (
-          newCol === this.column + 1 ||
-          (newCol === this.column - 1 && newRow === this.row - 1)
+          // newCol === this.column + 1 ||
+          // (newCol === this.column - 1 && newRow === this.row - 1)
+          ((newCol === this.column + 1 || newCol === this.column - 1) && newRow === this.row - 1)
         ) {
           if (!chessboard.board[newRow][newCol]) return false;
           else return true;

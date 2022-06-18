@@ -588,7 +588,7 @@ class Piece {
         return true;
       } //left direction
       else if (enemyKingCol < this.column && enemyKingRow === this.row) {
-        for (let i = this.column - 1; i < enemyKingCol; i--) {
+        for (let i = this.column - 1; i > enemyKingCol; i--) {
           const pieceChecked = chessboard.board[this.row][i];
           if (
             pieceChecked &&

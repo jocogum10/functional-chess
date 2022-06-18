@@ -181,14 +181,16 @@ class ChessBoard {
   playerIsChecked(playerColor) {
     let playerChecked = false;
 
-    for(let i = 0; i < 7; i++){
-      for(let j = 0; j < 7; j++){
-
-        const currentCell = this.board[i][j]
-        const isEnemyPiece = currentCell && currentCell.color != playerColor
+    for (let i = 0; i < 7; i++) {
+      for (let j = 0; j < 7; j++) {
+        const currentCell = this.board[i][j];
+        const isEnemyPiece = currentCell && currentCell.color != playerColor;
         if (isEnemyPiece) {
-          const kingPiece = playerColor === 'white' ? wk1 : bk1
-          const pieceChecks = currentCell.isChecked(kingPiece.row, kingPiece.column)
+          const kingPiece = playerColor === "white" ? wk1 : bk1;
+          const pieceChecks = currentCell.isChecked(
+            kingPiece.row,
+            kingPiece.column
+          );
           if (pieceChecks) {
             playerChecked = true;
             break;
@@ -236,7 +238,13 @@ class ChessBoard {
         this.capturePiece(this.board[newRow][newCol]);
       } else {
         this.board[oldRow][oldCol] = this.pieceOnHand;
-        console.log("invalid capture - returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+        console.log(
+          "invalid capture - returning",
+          this.pieceOnHand.id,
+          "to",
+          oldRow,
+          oldCol
+        );
       }
 
       // place the current piece to the target cell
@@ -247,13 +255,13 @@ class ChessBoard {
       // check if current piece will be promoted
       const currentPieceIsPromoted = this.pieceOnHand.isPromoted();
       console.log(currentPieceIsPromoted);
-      if(currentPieceIsPromoted){
-        const id = this.pieceOnHand.id
-        const row = this.pieceOnHand.row
-        const column = this.pieceOnHand.column
-        const color = this.pieceOnHand.color
-        const newType = color === 'white' ? 'wq': 'bq'
-        this.pieceOnHand = new Queen(id, row, column, color, newType)
+      if (currentPieceIsPromoted) {
+        const id = this.pieceOnHand.id;
+        const row = this.pieceOnHand.row;
+        const column = this.pieceOnHand.column;
+        const color = this.pieceOnHand.color;
+        const newType = color === "white" ? "wq" : "bq";
+        this.pieceOnHand = new Queen(id, row, column, color, newType);
       }
 
       this.board[rowIndex][colIndex] = this.pieceOnHand;
@@ -268,40 +276,39 @@ class ChessBoard {
         newRow,
         newCol
       );
-      
+
       // check if current move check opponent piece
-      
+
       // if (this.playerWhiteTurn) {
-        const blackChecked = this.playerIsChecked('black');
-        console.log("Black isChecked", blackChecked);
-        const blackCheckedElement = document.getElementById(
-          `${bk1.row}${bk1.column}`
-        );
+      const blackChecked = this.playerIsChecked("black");
+      console.log("Black isChecked", blackChecked);
+      const blackCheckedElement = document.getElementById(
+        `${bk1.row}${bk1.column}`
+      );
 
-        blackCheckedElement.removeAttribute("style");
-        if (blackChecked) {
-          blackCheckedElement.setAttribute("style", "background-color: red");
+      blackCheckedElement.removeAttribute("style");
+      if (blackChecked) {
+        blackCheckedElement.setAttribute("style", "background-color: red");
 
-          checkObjBlack.isCheck = true;
-          checkObjBlack.pieceWhichChecked = this.pieceOnHand;
-          checkObjBlack.whereKing = [bk1.row, bk1.column];
-        }
+        checkObjBlack.isCheck = true;
+        checkObjBlack.pieceWhichChecked = this.pieceOnHand;
+        checkObjBlack.whereKing = [bk1.row, bk1.column];
+      }
       // } else {
-        const whiteChecked = this.playerIsChecked('white');
-        console.log("White isChecked", whiteChecked);
-        const whiteCheckedElement = document.getElementById(
-          `${wk1.row}${wk1.column}`
-        );
-        whiteCheckedElement.removeAttribute("style");
-        if (whiteChecked) {
-          checkObjWhite.isCheck = true;
-          checkObjWhite.pieceWhichChecked = this.pieceOnHand;
-          checkObjWhite.whereKing = [bk1.row, bk1.column];
+      const whiteChecked = this.playerIsChecked("white");
+      console.log("White isChecked", whiteChecked);
+      const whiteCheckedElement = document.getElementById(
+        `${wk1.row}${wk1.column}`
+      );
+      whiteCheckedElement.removeAttribute("style");
+      if (whiteChecked) {
+        checkObjWhite.isCheck = true;
+        checkObjWhite.pieceWhichChecked = this.pieceOnHand;
+        checkObjWhite.whereKing = [bk1.row, bk1.column];
 
-          whiteCheckedElement.setAttribute("style", "background-color: red");
-        }
+        whiteCheckedElement.setAttribute("style", "background-color: red");
+      }
       // }
-
 
       // check if the current player made a valid move then switch player
       if (oldRow !== newRow || oldCol !== newCol) {
@@ -309,15 +316,20 @@ class ChessBoard {
       }
 
       // set the first move to false when pieceonhand is pawn
-      if(this.pieceOnHand.type.includes('p')){
+      if (this.pieceOnHand.type.includes("p")) {
         this.pieceOnHand.firstMove = false;
       }
-
     } else {
       this.board[oldRow][oldCol] = this.pieceOnHand;
-      console.log("invalid move - returning", this.pieceOnHand.id, "to", oldRow, oldCol);
+      console.log(
+        "invalid move - returning",
+        this.pieceOnHand.id,
+        "to",
+        oldRow,
+        oldCol
+      );
     }
-    
+
     this.pieceOnHand = "";
     console.log("player turn:", this.playerWhiteTurn ? "white" : "black");
     this.renderBoard();
@@ -501,7 +513,7 @@ class Piece {
   isValidMove() {
     return false;
   }
-  isPromoted (newRow, newCol) {
+  isPromoted(newRow, newCol) {
     return false;
   }
 
@@ -722,7 +734,7 @@ class Pawn extends Piece {
     this.firstMove = true;
   }
   isValidMove(newRow, newCol) {
-    if(this.isNoPiece(this.row, this.column, newRow, newCol)){
+    if (this.isNoPiece(this.row, this.column, newRow, newCol)) {
       if (this.color === "black") {
         if (this.firstMove === true) {
           if (chessboard.board[newRow][newCol]) return false;
@@ -770,38 +782,44 @@ class Pawn extends Piece {
     }
   }
 
-  isPromoted () {
+  isPromoted() {
     const whiteTargetCoordinates = [
-      {row: 0, column: 0},
-      {row: 0, column: 1},
-      {row: 0, column: 2},
-      {row: 0, column: 3},
-      {row: 0, column: 4},
-      {row: 0, column: 5},
-      {row: 0, column: 6},
-      {row: 0, column: 7},
-    ]
+      { row: 0, column: 0 },
+      { row: 0, column: 1 },
+      { row: 0, column: 2 },
+      { row: 0, column: 3 },
+      { row: 0, column: 4 },
+      { row: 0, column: 5 },
+      { row: 0, column: 6 },
+      { row: 0, column: 7 },
+    ];
     const blackTargetCoordinates = [
-      {row: 7, column: 0},
-      {row: 7, column: 1},
-      {row: 7, column: 2},
-      {row: 7, column: 3},
-      {row: 7, column: 4},
-      {row: 7, column: 5},
-      {row: 7, column: 6},
-      {row: 7, column: 7},
-    ]
-    let isPromotedResult = false
-    if(this.color === 'white'){
-      for(let i = 0; i < whiteTargetCoordinates.length; i++){
-        if(this.row === whiteTargetCoordinates[i].row && this.column === whiteTargetCoordinates[i].column){
+      { row: 7, column: 0 },
+      { row: 7, column: 1 },
+      { row: 7, column: 2 },
+      { row: 7, column: 3 },
+      { row: 7, column: 4 },
+      { row: 7, column: 5 },
+      { row: 7, column: 6 },
+      { row: 7, column: 7 },
+    ];
+    let isPromotedResult = false;
+    if (this.color === "white") {
+      for (let i = 0; i < whiteTargetCoordinates.length; i++) {
+        if (
+          this.row === whiteTargetCoordinates[i].row &&
+          this.column === whiteTargetCoordinates[i].column
+        ) {
           isPromotedResult = true;
           break;
         }
       }
     } else {
-      for(let i = 0; i < blackTargetCoordinates.length; i++){
-        if(this.row === blackTargetCoordinates[i].row && this.column === blackTargetCoordinates[i].column){
+      for (let i = 0; i < blackTargetCoordinates.length; i++) {
+        if (
+          this.row === blackTargetCoordinates[i].row &&
+          this.column === blackTargetCoordinates[i].column
+        ) {
           isPromotedResult = true;
           break;
         }

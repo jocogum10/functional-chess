@@ -22,7 +22,7 @@ const makeModal = (whoWon) => {
 
   //description
   const p = document.createElement("p");
-  p.textContent = "Who plays first?";
+  p.textContent = "Play Again?";
   modal.append(p);
 
   //buttons

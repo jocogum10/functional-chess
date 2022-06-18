@@ -4,7 +4,11 @@ export default function checkMate(gameboard, Checkobj) {
   const kingRow = Checkobj.whereKing[0];
   const kingCol = Checkobj.whereKing[1];
 
-  if (Checkobj.pieceWhichChecked.type.charAt(1) !== "q") {
+  //if king can still move
+  if (
+    Checkobj.pieceWhichChecked.type.charAt(1) !== "q" ||
+    Math.abs(Checkobj.pieceWhichChecked.row - kingRow) !== 1
+  ) {
     console.log(Checkobj.pieceWhichChecked.type);
     if (kingRow !== 0 && kingCol !== 0) {
       if (
@@ -34,9 +38,14 @@ export default function checkMate(gameboard, Checkobj) {
 
   console.log("kingrow", kingRow);
 
+  //if black is checked
   if (Checkobj.pieceWhichChecked.type.charAt(0) === "w") {
     if (kingRow !== 0) {
       gameboard[kingRow - 1].forEach((cell) => {
+        if (cell.type === "br" || cell.type === "bq") {
+          possibleMoves++;
+          canBeMoved.push(cell);
+        }
         if (cell.type === "bb") {
           if (Math.abs(kingCol - cell.column) === 3) {
             possibleMoves++;
@@ -46,6 +55,9 @@ export default function checkMate(gameboard, Checkobj) {
       });
     }
     gameboard[kingRow].forEach((cell) => {
+      if (cell.type === "br" || cell.type === "bq" || cell.type === "bb")
+        possibleMoves++;
+
       if (cell.type === "bq" || cell.type === "br" || cell.type === "bp") {
         if (Math.abs(cell.column - kingCol) === 1) {
           possibleMoves++;
@@ -77,9 +89,16 @@ export default function checkMate(gameboard, Checkobj) {
     console.log(canBeMoved);
 
     return possibleMoves;
-  } else {
+  }
+  //if white is checked
+  else {
     if (kingRow !== 0) {
       gameboard[kingRow - 1].forEach((cell) => {
+        if (cell.type === "wr" || cell.type === "wq") {
+          possibleMoves++;
+          canBeMoved.push(cell);
+        }
+
         if (cell.type === "wb") {
           if (Math.abs(kingCol - cell.column) === 3) {
             possibleMoves++;
@@ -89,6 +108,8 @@ export default function checkMate(gameboard, Checkobj) {
       });
     }
     gameboard[kingRow].forEach((cell) => {
+      if (cell.type === "wr" || cell.type === "wq" || cell.type === "wb")
+        possibleMoves++;
       if (cell.type === "wq" || cell.type === "wr" || cell.type === "wp") {
         if (Math.abs(cell.column - kingCol) === 1) {
           possibleMoves++;
@@ -104,6 +125,7 @@ export default function checkMate(gameboard, Checkobj) {
     });
 
     gameboard[kingRow + 1].forEach((cell) => {
+      console.log(kingRow + 1);
       if (cell.type === "wr" || cell.type === "wq") possibleMoves++;
       if (cell.type === "wp") {
         if (

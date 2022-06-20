@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sass": "npx sass ./sass/styles.scss:./assets/styles/app.css",
+    "sass": "npx sass ./sass/styles.scss:./assets/styles/app.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

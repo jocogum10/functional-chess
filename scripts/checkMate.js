@@ -5,10 +5,7 @@ export default function checkMate(gameboard, Checkobj) {
   const kingCol = Checkobj.whereKing[1];
 
   //if king can still move
-  if (
-    Checkobj.pieceWhichChecked.type.charAt(1) !== "q" ||
-    Math.abs(Checkobj.pieceWhichChecked.row - kingRow) !== 1
-  ) {
+  if (Checkobj.pieceWhichChecked.type.charAt(1) !== "q") {
     console.log(Checkobj.pieceWhichChecked.type);
     if (kingRow !== 0 && kingCol !== 0) {
       if (
@@ -48,8 +45,10 @@ export default function checkMate(gameboard, Checkobj) {
         }
         if (cell.type === "bb") {
           if (Math.abs(kingCol - cell.column) === 3) {
-            possibleMoves++;
-            canBeMoved.push(cell);
+            if (Math.abs(kingRow - cell.row) > 2) {
+              possibleMoves++;
+              canBeMoved.push(cell);
+            }
           }
         }
       });

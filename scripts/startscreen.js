@@ -49,6 +49,9 @@ const makeModal = () => {
 
 const startScreen = () => {
   makeModal();
+  document.getElementById("restart-btn").onclick = () => {
+    location.reload();
+  };
 };
 
 export default startScreen;

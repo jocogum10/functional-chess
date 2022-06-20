@@ -5,36 +5,30 @@ export default function checkMate(gameboard, Checkobj) {
   const kingCol = Checkobj.whereKing[1];
 
   //if king can still move
-  if (Checkobj.pieceWhichChecked.type.charAt(1) !== "q") {
-    console.log(Checkobj.pieceWhichChecked.type);
-    if (kingRow !== 0 && kingCol !== 0) {
-      if (
-        gameboard[kingRow + 1][kingCol] === "" ||
-        gameboard[kingRow - 1][kingCol] === "" ||
-        gameboard[kingRow][kingCol + 1] === "" ||
-        gameboard[kingRow][kingCol - 1] === "" ||
-        gameboard[kingRow + 1][kingCol + 1] === "" ||
-        gameboard[kingRow - 1][kingCol - 1] === "" ||
-        gameboard[kingRow - 1][kingCol + 1] === "" ||
-        gameboard[kingRow + 1][kingCol - 1] === ""
-      ) {
+  gameboard[kingRow].forEach((cell) => {
+    if (Math.abs(kingCol - cell.column) === 1) {
+      if ((cell = "")) {
         possibleMoves++;
-        canBeMoved.push("king");
-      }
-    } else {
-      if (
-        gameboard[kingRow + 1][kingCol] === "" ||
-        gameboard[kingRow][kingCol + 1] === "" ||
-        gameboard[kingRow + 1][kingCol + 1] === ""
-      ) {
-        possibleMoves++;
-        canBeMoved.push("king");
       }
     }
+  });
+
+  gameboard[kingRow + 1].forEach((cell) => {
+    if (Math.abs(kingCol - cell.column) === 1) {
+      if ((cell = "")) {
+        possibleMoves++;
+      }
+    }
+  });
+  if (kingRow > 0) {
+    gameboard[kingRow - 1].forEach((cell) => {
+      if (Math.abs(kingCol - cell.column) === 1) {
+        if ((cell = "")) {
+          possibleMoves++;
+        }
+      }
+    });
   }
-
-  console.log("kingrow", kingRow);
-
   //if black is checked
   if (Checkobj.pieceWhichChecked.type.charAt(0) === "w") {
     if (kingRow !== 0) {
@@ -89,7 +83,7 @@ export default function checkMate(gameboard, Checkobj) {
 
     return possibleMoves;
   }
-  //if white is checked
+  // //if white is checked
   else {
     if (kingRow !== 0) {
       gameboard[kingRow - 1].forEach((cell) => {
@@ -139,6 +133,8 @@ export default function checkMate(gameboard, Checkobj) {
 
     console.log("possible moves: ", possibleMoves);
     console.log(canBeMoved);
+    console.log(possibleMoves);
+
     return possibleMoves;
   }
 }

@@ -16,4 +16,4 @@ A chess game using vanilla JS
 ---
 ### `Game`
 
-![login](https://github.com/jocogum10/functional-chess/tree/main/assets/images/chess.gif)
+![chess game](https://github.com/jocogum10/functional-chess/blob/main/assets/images/chess.gif)
